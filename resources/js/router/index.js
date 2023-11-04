@@ -9,8 +9,8 @@ import authRoutes from "./auth";
 import studentRoutes from "./student";
 import teacherRoutes from "./teacher";
 
-// Frontend: Landing
-const Landing = () => import("@/views/LandingView.vue");
+// Frontend: Home
+const Home = () => import("@/views/HomeView.vue");
 
 // Set all routes
 const routes = [
@@ -20,8 +20,8 @@ const routes = [
         children: [
             {
                 path: "",
-                name: "landing",
-                component: Landing,
+                name: "home",
+                component: Home,
             },
         ],
     },

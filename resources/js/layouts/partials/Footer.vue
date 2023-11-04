@@ -6,36 +6,34 @@ const store = useTemplateStore();
 </script>
 
 <template>
-  <!-- Footer -->
-  <footer id="page-footer">
-    <slot>
-      <div class="bg-body-light">
-        <div class="content py-3">
-          <div class="row fs-sm">
-            <div class="col-sm-6 order-sm-2 py-1 text-center text-sm-end">
-              <slot name="content-right">
-                Crafted with
-                <i class="fa fa-heart text-danger"></i> by
-                <a
-                  class="fw-semibold"
-                  href="https://mustaphahammouny.com"
-                  target="_blank"
-                  >Mustapha Hammouny</a
-                >
-              </slot>
+    <!-- Footer -->
+    <footer id="page-footer">
+        <slot>
+            <div class="bg-body-light">
+                <div class="content py-3">
+                    <div class="row row-cols-sm-2 fs-sm">
+                        <div class="col-12 col-sm-7 order-sm-2 py-2 py-sm-1 text-center text-sm-end">
+                            <slot name="content-right">
+                                Crafted with
+                                <i class="fa fa-heart text-danger"></i>
+                                by
+                                <a class="fw-semibold" :href="store.owner.website" target="_blank">
+                                    {{ store.owner.name }}
+                                </a>
+                            </slot>
+                        </div>
+                        <div class="col-12 col-sm-5 order-sm-1 py-2 py-sm-1 text-center text-sm-start">
+                            <slot name="content-left">
+                                <RouterLink :to="{ name: 'home' }" class="fw-semibold">
+                                    {{ `${store.app.name} ${store.app.version}` }}
+                                </RouterLink>
+                                &copy; {{ store.app.copyright }}
+                            </slot>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="col-sm-6 order-sm-1 py-1 text-center text-sm-start">
-              <slot name="content-left">
-                <a class="fw-semibold" href="https://1.envato.market/5Noyb">{{
-                  store.app.name + " " + store.app.version
-                }}</a>
-                &copy; {{ store.app.copyright }}
-              </slot>
-            </div>
-          </div>
-        </div>
-      </div>
-    </slot>
-  </footer>
-  <!-- END Footer -->
+        </slot>
+    </footer>
+    <!-- END Footer -->
 </template>

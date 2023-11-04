@@ -11,6 +11,11 @@ export const useTemplateStore = defineStore({
             copyright: new Date().getFullYear(),
         },
 
+        owner: {
+            name: "Mustapha Hammouny",
+            website: "https://mustaphahammouny.com",
+        },
+
         // Default layout options
         layout: {
             header: true,
