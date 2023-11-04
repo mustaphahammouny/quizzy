@@ -2,21 +2,36 @@
 
 namespace Database\Seeders;
 
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 class DatabaseSeeder extends Seeder
 {
-    /**
-     * Seed the application's database.
-     */
+    private $excludeTables = ['migrations'];
+
     public function run(): void
     {
-        // \App\Models\User::factory(10)->create();
+        $this->clear();
 
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
+        $this->call(RoleSeeder::class);
+        $this->call(UserSeeder::class);
+    }
+
+    private function clear(): void
+    {
+        $tables = DB::select('SHOW TABLES');
+
+        Schema::disableForeignKeyConstraints();
+
+        foreach ($tables as $table) {
+            $tableName = reset($table);
+
+            if (!in_array($tableName, $this->excludeTables)) {
+                DB::table($tableName)->truncate();
+            }
+        }
+
+        Schema::enableForeignKeyConstraints();
     }
 }
