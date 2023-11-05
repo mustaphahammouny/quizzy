@@ -67,7 +67,7 @@ async function onSubmit() {
                 <form @submit.prevent="onSubmit">
                     <div class="mb-4">
                         <input type="text" class="form-control form-control-lg form-control-alt py-3"
-                            id="reminder-credential" name="reminder-credential" placeholder="Username or Email" :class="{
+                            id="reminder-credential" name="reminder-credential" placeholder="Email" :class="{
                                 'is-invalid': v$.reminder.$errors.length,
                             }" v-model="state.reminder" @blur="v$.reminder.$touch" />
                         <div v-if="v$.reminder.$errors.length" class="invalid-feedback animated fadeIn">

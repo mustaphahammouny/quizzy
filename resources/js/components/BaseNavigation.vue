@@ -1,10 +1,10 @@
 <script setup>
 import { computed } from "vue";
 import { useRoute } from "vue-router";
-import { useTemplateStore } from "@/stores/template";
+import { useTemplateStore } from "@/stores/template.store";
 
-// Main store and Route
-const store = useTemplateStore();
+// Template store and Route
+const template = useTemplateStore();
 const route = useRoute();
 
 // Component properties
@@ -101,7 +101,7 @@ function linkClicked(e, submenu) {
     } else {
         // If we are in mobile, close the sidebar
         if (window.innerWidth < 992) {
-            store.sidebar({ mode: "close" });
+            template.sidebar({ mode: "close" });
         }
     }
 }

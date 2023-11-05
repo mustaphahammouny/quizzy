@@ -1,8 +1,8 @@
 <script setup>
-import { useTemplateStore } from "@/stores/template";
+import { useTemplateStore } from "@/stores/template.store";
 
-// Main store and Router
-const store = useTemplateStore();
+// Template store and Router
+const template = useTemplateStore();
 </script>
 
 <template>
@@ -17,14 +17,14 @@ const store = useTemplateStore();
                         <slot name="content-left">
                             <!-- Toggle Sidebar -->
                             <button type="button" class="btn btn-sm btn-alt-secondary me-2 d-lg-none"
-                                @click="store.sidebar({ mode: 'toggle' })">
+                                @click="template.sidebar({ mode: 'toggle' })">
                                 <i class="fa fa-fw fa-bars"></i>
                             </button>
                             <!-- END Toggle Sidebar -->
 
                             <!-- Toggle Mini Sidebar -->
                             <button type="button" class="btn btn-sm btn-alt-secondary me-2 d-none d-lg-inline-block"
-                                @click="store.sidebarMini({ mode: 'toggle' })">
+                                @click="template.sidebarMini({ mode: 'toggle' })">
                                 <i class="fa fa-fw fa-ellipsis-v"></i>
                             </button>
                             <!-- END Toggle Mini Sidebar -->
@@ -80,7 +80,7 @@ const store = useTemplateStore();
 
             <!-- Header Loader -->
             <div id="page-header-loader" class="overlay-header bg-body-extra-light"
-                :class="{ show: store.settings.headerLoader }">
+                :class="{ show: template.settings.headerLoader }">
                 <div class="content-header">
                     <div class="w-100 text-center">
                         <i class="fa fa-fw fa-circle-notch fa-spin"></i>

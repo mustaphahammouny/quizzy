@@ -1,18 +1,18 @@
 <script setup>
 import { reactive, onMounted, onUnmounted } from "vue";
-import { useTemplateStore } from "@/stores/template";
+import { useTemplateStore } from "@/stores/template.store";
 
 // SimpleBar, for more info and examples you can check out https://github.com/Grsmto/simplebar/tree/master/packages/simplebar-vue
 import SimpleBar from "simplebar";
 
-// Main store
-const store = useTemplateStore();
+// Template store
+const template = useTemplateStore();
 
 // Close side overlay on ESCAPE key down
 function eventSideOverlay(event) {
     if (event.which === 27) {
         event.preventDefault();
-        store.sideOverlay({ mode: "close" });
+        template.sideOverlay({ mode: "close" });
     }
 }
 
@@ -51,7 +51,7 @@ onUnmounted(() => {
 
                 <!-- Close Side Overlay -->
                 <button type="button" class="ms-auto btn btn-sm btn-alt-danger"
-                    @click="store.sideOverlay({ mode: 'close' })">
+                    @click="template.sideOverlay({ mode: 'close' })">
                     <i class="fa fa-fw fa-times"></i>
                 </button>
                 <!-- END Close Side Overlay -->

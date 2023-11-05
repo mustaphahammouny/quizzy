@@ -1,13 +1,13 @@
 <script setup>
-import { useTemplateStore } from "@/stores/template";
+import { useTemplateStore } from "@/stores/template.store";
 
 import BaseLayout from "@/layouts/BaseLayout.vue";
 
-// Main store
-const store = useTemplateStore();
+// Template store
+const template = useTemplateStore();
 
 // Set default elements for this layout
-store.setLayout({
+template.setLayout({
     header: false,
     sidebar: false,
     sideOverlay: false,
@@ -15,7 +15,7 @@ store.setLayout({
 });
 
 // Set various template options for this layout variation
-store.mainContent({ mode: "full" });
+template.mainContent({ mode: "full" });
 </script>
 
 <template>

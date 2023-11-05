@@ -9,6 +9,8 @@ import authRoutes from "./auth";
 import studentRoutes from "./student";
 import teacherRoutes from "./teacher";
 
+import { useAuthStore } from "../stores/auth.store";
+
 // Frontend: Home
 const Home = () => import("@/views/HomeView.vue");
 
@@ -47,7 +49,16 @@ NProgress.configure({ showSpinner: false });
 
 router.beforeResolve((to, from, next) => {
     NProgress.start();
-    next();
+
+    const auth = useAuthStore();
+
+    if (to.meta.auth && !auth.user) {
+        next({name: 'auth.signin'});    
+    } else if (to.meta.guest && auth.user) {
+        next({name: `${auth.user.role}.dashboard`});
+    } else {
+        next();
+    }
 });
 
 router.afterEach((to, from) => {

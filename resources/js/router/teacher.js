@@ -12,6 +12,7 @@ const routes = [
                 path: "dashboard",
                 name: "teacher.dashboard",
                 component: TeacherDashboard,
+                meta: { auth: true },
             },
         ],
     },

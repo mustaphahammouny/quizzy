@@ -1,13 +1,13 @@
 <script setup>
-import { useTemplateStore } from "@/stores/template";
+import { useTemplateStore } from "@/stores/template.store";
 
 import BaseLayout from "@/layouts/BaseLayout.vue";
 
-// Main store
-const store = useTemplateStore();
+// Template store
+const template = useTemplateStore();
 
 // Set default elements for this layout
-store.setLayout({
+template.setLayout({
     header: true,
     sidebar: false,
     sideOverlay: false,
@@ -15,8 +15,8 @@ store.setLayout({
 });
 
 // Set various template options for this layout variation
-store.headerStyle({ mode: "light" });
-store.mainContent({ mode: "boxed" });
+template.headerStyle({ mode: "light" });
+template.mainContent({ mode: "boxed" });
 </script>
 
 <template>
@@ -34,7 +34,7 @@ store.mainContent({ mode: "boxed" });
 
                 <!-- Version -->
                 <div class="fs-xs fw-semibold py-1 px-2 rounded-pill bg-body-dark text-dark">
-                    v{{ store.app.version }}
+                    v{{ template.app.version }}
                 </div>
             </div>
         </template>
@@ -53,33 +53,33 @@ store.mainContent({ mode: "boxed" });
                     aria-labelledby="sidebar-themes-dropdown">
                     <!-- Color Themes -->
                     <button type="button" class="dropdown-item d-flex align-items-center justify-content-between fw-medium"
-                        @click.prevent="store.setColorTheme({ theme: '' })">
+                        @click.prevent="template.setColorTheme({ theme: '' })">
                         <span>Default</span>
                         <i class="fa fa-circle text-default"></i>
                     </button>
                     <button type="buttbuttonn"
                         class="dropdown-item d-flex align-items-center justify-content-between fw-medium"
-                        @click.prevent="store.setColorTheme({ theme: 'amethyst' })">
+                        @click.prevent="template.setColorTheme({ theme: 'amethyst' })">
                         <span>Amethyst</span>
                         <i class="fa fa-circle text-amethyst"></i>
                     </button>
                     <button type="button" class="dropdown-item d-flex align-items-center justify-content-between fw-medium"
-                        @click.prevent="store.setColorTheme({ theme: 'city' })">
+                        @click.prevent="template.setColorTheme({ theme: 'city' })">
                         <span>City</span>
                         <i class="fa fa-circle text-city"></i>
                     </button>
                     <button type="button" class="dropdown-item d-flex align-items-center justify-content-between fw-medium"
-                        @click.prevent="store.setColorTheme({ theme: 'flat' })">
+                        @click.prevent="template.setColorTheme({ theme: 'flat' })">
                         <span>Flat</span>
                         <i class="fa fa-circle text-flat"></i>
                     </button>
                     <button type="button" class="dropdown-item d-flex align-items-center justify-content-between fw-medium"
-                        @click.prevent="store.setColorTheme({ theme: 'modern' })">
+                        @click.prevent="template.setColorTheme({ theme: 'modern' })">
                         <span>Modern</span>
                         <i class="fa fa-circle text-modern"></i>
                     </button>
                     <button type="button" class="dropdown-item d-flex align-items-center justify-content-between fw-medium"
-                        @click.prevent="store.setColorTheme({ theme: 'smooth' })">
+                        @click.prevent="template.setColorTheme({ theme: 'smooth' })">
                         <span>Smooth</span>
                         <i class="fa fa-circle text-smooth"></i>
                     </button>

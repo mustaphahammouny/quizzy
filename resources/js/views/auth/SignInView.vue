@@ -87,19 +87,24 @@ async function onSubmit() {
                             Please enter your password
                         </div>
                     </div>
-                    <div class="d-flex justify-content-between align-items-center mb-4">
-                        <div>
-                            <RouterLink :to="{ name: 'auth.reminder' }"
+                    <div class="mb-4">
+                        <div class="d-md-flex align-items-md-center justify-content-md-between">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="remember" name="remember" />
+                                <label class="form-check-label" for="remember">Remember me</label>
+                            </div>
+                            <div class="py-2">
+                                <RouterLink :to="{ name: 'auth.reminder' }"
                                 class="text-primary fs-sm fw-medium d-block d-lg-inline-block mb-1">
                                 Forgot Password?
                             </RouterLink>
+                            </div>
                         </div>
-                        <div>
-                            <button type="submit" class="btn btn-lg btn-alt-primary">
-                                <i class="fa fa-fw fa-sign-in-alt me-1 opacity-50"></i>
-                                Sign In
-                            </button>
-                        </div>
+                    </div>
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-lg btn-alt-success">
+                            <i class="fa fa-fw fa-plus me-1 opacity-50"></i> Sign In
+                        </button>
                     </div>
                 </form>
             </div>

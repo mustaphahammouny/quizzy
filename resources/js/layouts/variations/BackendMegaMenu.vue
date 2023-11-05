@@ -1,13 +1,13 @@
 <script setup>
-import { useTemplateStore } from "@/stores/template";
+import { useTemplateStore } from "@/stores/template.store";
 
 import BaseLayout from "@/layouts/BaseLayout.vue";
 
-// Main store
-const store = useTemplateStore();
+// Template store
+const template = useTemplateStore();
 
 // Set default elements for this layout
-store.setLayout({
+template.setLayout({
     header: true,
     sidebar: true,
     sideOverlay: true,
@@ -15,8 +15,8 @@ store.setLayout({
 });
 
 // Set various template options for this layout variation
-store.headerStyle({ mode: "light" });
-store.mainContent({ mode: "narrow" });
+template.headerStyle({ mode: "light" });
+template.mainContent({ mode: "narrow" });
 </script>
 
 <template>
@@ -26,7 +26,7 @@ store.mainContent({ mode: "narrow" });
         <template #header-content-left>
             <!-- Toggle Sidebar -->
             <button type="button" class="btn btn-sm btn-alt-secondary me-2 d-lg-none"
-                @click="store.sidebar({ mode: 'toggle' })">
+                @click="template.sidebar({ mode: 'toggle' })">
                 <i class="fa fa-fw fa-bars"></i>
             </button>
             <!-- END Toggle Sidebar -->

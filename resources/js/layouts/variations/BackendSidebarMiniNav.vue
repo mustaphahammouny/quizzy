@@ -1,6 +1,6 @@
 <script setup>
 import { onBeforeRouteLeave } from "vue-router";
-import { useTemplateStore } from "@/stores/template";
+import { useTemplateStore } from "@/stores/template.store";
 
 import BaseNavigation from "@/components/BaseNavigation.vue";
 
@@ -11,11 +11,11 @@ import menu from "@/data/menu";
 
 const navigation = menu.main;
 
-// Main store
-const store = useTemplateStore();
+// Template store
+const template = useTemplateStore();
 
 // Set default elements for this layout
-store.setLayout({
+template.setLayout({
     header: true,
     sidebar: true,
     sideOverlay: true,
@@ -23,14 +23,14 @@ store.setLayout({
 });
 
 // Set various template options for this layout variation
-store.sidebarStyle({ mode: "light" });
-store.sidebarMini({ mode: "off" });
-store.mainContent({ mode: "narrow" });
+template.sidebarStyle({ mode: "light" });
+template.sidebarMini({ mode: "off" });
+template.mainContent({ mode: "narrow" });
 
 // Before leaving this page
 onBeforeRouteLeave(() => {
     // Restore original settings
-    store.sidebarStyle({ mode: "dark" });
+    template.sidebarStyle({ mode: "dark" });
 });
 </script>
 
@@ -94,7 +94,7 @@ onBeforeRouteLeave(() => {
                     <div>
                         <!-- Close Sidebar, Visible only on mobile screens -->
                         <button type="button" class="d-lg-none btn btn-sm btn-alt-secondary ms-1"
-                            @click="store.sidebar({ mode: 'close' })">
+                            @click="template.sidebar({ mode: 'close' })">
                             <i class="fa fa-fw fa-times"></i>
                         </button>
                         <!-- END Close Sidebar -->
@@ -117,14 +117,14 @@ onBeforeRouteLeave(() => {
         <!-- Using the available v-slot, we can override the default Header content from layouts/partials/Header.vue -->
         <template #header-content-left>
             <!-- Toggle Sidebar -->
-            <button type="button" class="btn btn-sm btn-alt-secondary me-2" @click="store.sidebar({ mode: 'toggle' })">
+            <button type="button" class="btn btn-sm btn-alt-secondary me-2" @click="template.sidebar({ mode: 'toggle' })">
                 <i class="fa fa-fw fa-bars"></i>
             </button>
             <!-- END Toggle Sidebar -->
 
             <!-- Open Search Section (visible on smaller screens) -->
             <button type="button" class="btn btn-sm btn-alt-secondary d-md-none"
-                @click="store.headerSearch({ mode: 'on' })">
+                @click="template.headerSearch({ mode: 'on' })">
                 <i class="fa fa-fw fa-search"></i>
             </button>
             <!-- END Open Search Section -->

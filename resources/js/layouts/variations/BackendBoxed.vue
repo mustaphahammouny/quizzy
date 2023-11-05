@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from "vue";
-import { useTemplateStore } from "@/stores/template";
+import { useTemplateStore } from "@/stores/template.store";
 
 import BaseLayout from "@/layouts/BaseLayout.vue";
 import BaseNavigation from "@/components/BaseNavigation.vue";
@@ -13,15 +13,15 @@ import menu from "@/data/menu";
 
 const navigation = menu.boxed;
 
-// Main store
-const store = useTemplateStore();
+// Template store
+const template = useTemplateStore();
 
 // Reactive variables
 const mobileNav = ref(false);
 const baseSearchTerm = ref("");
 
 // Set default elements for this layout
-store.setLayout({
+template.setLayout({
     header: true,
     sidebar: false,
     sideOverlay: false,
@@ -29,8 +29,8 @@ store.setLayout({
 });
 
 // Set various template options for this layout variation
-store.headerStyle({ mode: "dark" });
-store.mainContent({ mode: "boxed" });
+template.headerStyle({ mode: "dark" });
+template.mainContent({ mode: "boxed" });
 </script>
 
 <template>
@@ -96,7 +96,7 @@ store.mainContent({ mode: "boxed" });
             <div class="d-flex align-items-center">
                 <!-- Open Search Section (visible on smaller screens) -->
                 <button type="button" class="btn btn-sm btn-alt-secondary d-md-none"
-                    @click="store.headerSearch({ mode: 'on' })">
+                    @click="template.headerSearch({ mode: 'on' })">
                     <i class="fa fa-fw fa-search"></i>
                 </button>
                 <!-- END Open Search Section -->

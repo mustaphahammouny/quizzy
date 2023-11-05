@@ -1,6 +1,6 @@
 <script setup>
 import { ref, watch, onMounted } from "vue";
-import { useTemplateStore } from "@/stores/template";
+import { useTemplateStore } from "@/stores/template.store";
 
 import BaseNavigation from "@/components/BaseNavigation.vue";
 
@@ -21,18 +21,18 @@ defineProps({
     },
 });
 
-// Main store
-const store = useTemplateStore();
+// Template store
+const template = useTemplateStore();
 
 // Dark Mode preference helper for radios
 const radioDarkMode = ref();
 
 // Sets default dark mode preferences for radios
 function setDarkModeRadioDefault() {
-    if (store.settings.darkModeSystem) {
+    if (template.settings.darkModeSystem) {
         radioDarkMode.value = "system";
     } else {
-        if (store.settings.darkMode) {
+        if (template.settings.darkMode) {
             radioDarkMode.value = "dark";
         } else {
             radioDarkMode.value = "light";
@@ -43,14 +43,14 @@ function setDarkModeRadioDefault() {
 // When the user sets dark mode preference through the radios
 function onDarkModeRadioChange() {
     if (radioDarkMode.value === "system") {
-        store.darkModeSystem({ mode: "on" });
+        template.darkModeSystem({ mode: "on" });
     } else {
-        store.darkModeSystem({ mode: "off" });
+        template.darkModeSystem({ mode: "off" });
 
         if (radioDarkMode.value === "dark") {
-            store.darkMode({ mode: "on" });
+            template.darkMode({ mode: "on" });
         } else {
-            store.darkMode({ mode: "off" });
+            template.darkMode({ mode: "off" });
         }
     }
 }
@@ -58,13 +58,13 @@ function onDarkModeRadioChange() {
 // Set dark mode preference radios default and watch for changes to store
 setDarkModeRadioDefault();
 watch(
-    () => store.settings.darkModeSystem,
+    () => template.settings.darkModeSystem,
     () => {
         setDarkModeRadioDefault();
     }
 );
 watch(
-    () => store.settings.darkMode,
+    () => template.settings.darkMode,
     () => {
         setDarkModeRadioDefault();
     }
@@ -100,7 +100,7 @@ onMounted(() => {
                             <i class="fa fa-circle-notch text-primary"></i>
                         </span>
                         <span class="smini-hide fs-5 tracking-wider">
-                            {{  store.app.name }}
+                            {{  template.app.name }}
                         </span>
                     </RouterLink>
                     <!-- END Logo -->
@@ -114,8 +114,8 @@ onMounted(() => {
                             <button type="button" class="btn btn-sm btn-alt-secondary" id="sidebar-dark-mode-dropdown"
                                 data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-haspopup="true"
                                 aria-expanded="false">
-                                <i v-if="!store.settings.darkMode" class="far fa-moon"></i>
-                                <i v-if="store.settings.darkMode" class="fa fa-moon"></i>
+                                <i v-if="!template.settings.darkMode" class="far fa-moon"></i>
+                                <i v-if="template.settings.darkMode" class="fa fa-moon"></i>
                             </button>
                             <div class="dropdown-menu dropdown-menu-end dropdown-menu fs-sm smini-hide border-0"
                                 style="min-width: 11rem" aria-labelledby="sidebar-dark-mode-dropdown">
@@ -161,52 +161,52 @@ onMounted(() => {
                                 <!-- Color Themes -->
                                 <button type="button"
                                     class="dropdown-item d-flex align-items-center justify-content-between fw-medium"
-                                    @click="store.setColorTheme({ theme: '' })">
+                                    @click="template.setColorTheme({ theme: '' })">
                                     <span>Default</span>
                                     <i class="fa fa-circle text-default"></i>
                                 </button>
                                 <button type="button"
                                     class="dropdown-item d-flex align-items-center justify-content-between fw-medium"
-                                    @click="store.setColorTheme({ theme: 'amethyst' })">
+                                    @click="template.setColorTheme({ theme: 'amethyst' })">
                                     <span>Amethyst</span>
                                     <i class="fa fa-circle text-amethyst"></i>
                                 </button>
                                 <button type="button"
                                     class="dropdown-item d-flex align-items-center justify-content-between fw-medium"
-                                    @click="store.setColorTheme({ theme: 'city' })">
+                                    @click="template.setColorTheme({ theme: 'city' })">
                                     <span>City</span>
                                     <i class="fa fa-circle text-city"></i>
                                 </button>
                                 <button type="button"
                                     class="dropdown-item d-flex align-items-center justify-content-between fw-medium"
-                                    @click="store.setColorTheme({ theme: 'flat' })">
+                                    @click="template.setColorTheme({ theme: 'flat' })">
                                     <span>Flat</span>
                                     <i class="fa fa-circle text-flat"></i>
                                 </button>
                                 <button type="button"
                                     class="dropdown-item d-flex align-items-center justify-content-between fw-medium"
-                                    @click="store.setColorTheme({ theme: 'modern' })">
+                                    @click="template.setColorTheme({ theme: 'modern' })">
                                     <span>Modern</span>
                                     <i class="fa fa-circle text-modern"></i>
                                 </button>
                                 <button type="button"
                                     class="dropdown-item d-flex align-items-center justify-content-between fw-medium"
-                                    @click="store.setColorTheme({ theme: 'smooth' })">
+                                    @click="template.setColorTheme({ theme: 'smooth' })">
                                     <span>Smooth</span>
                                     <i class="fa fa-circle text-smooth"></i>
                                 </button>
                                 <!-- END Color Themes -->
 
-                                <div v-if="!store.settings.darkMode">
+                                <div v-if="!template.settings.darkMode">
                                     <div class="dropdown-divider"></div>
 
                                     <!-- Sidebar Styles -->
                                     <button type="button" class="dropdown-item fw-medium"
-                                        @click="store.sidebarStyle({ mode: 'light' })">
+                                        @click="template.sidebarStyle({ mode: 'light' })">
                                         <span>Sidebar Light</span>
                                     </button>
                                     <button type="button" class="dropdown-item fw-medium"
-                                        @click="store.sidebarStyle({ mode: 'dark' })">
+                                        @click="template.sidebarStyle({ mode: 'dark' })">
                                         <span>Sidebar Dark</span>
                                     </button>
                                     <!-- END Sidebar Styles -->
@@ -215,11 +215,11 @@ onMounted(() => {
 
                                     <!-- Header Styles -->
                                     <button type="button" class="dropdown-item fw-medium"
-                                        @click="store.headerStyle({ mode: 'light' })">
+                                        @click="template.headerStyle({ mode: 'light' })">
                                         <span>Header Light</span>
                                     </button>
                                     <button type="button" class="dropdown-item fw-medium"
-                                        @click="store.headerStyle({ mode: 'dark' })">
+                                        @click="template.headerStyle({ mode: 'dark' })">
                                         <span>Header Dark</span>
                                     </button>
                                     <!-- END Header Styles -->
@@ -231,7 +231,7 @@ onMounted(() => {
 
                     <!-- Close Sidebar, Visible only on mobile screens -->
                     <button type="button" class="d-lg-none btn btn-sm btn-alt-secondary ms-1"
-                        @click="store.sidebar({ mode: 'close' })">
+                        @click="template.sidebar({ mode: 'close' })">
                         <i class="fa fa-fw fa-times"></i>
                     </button>
                     <!-- END Close Sidebar -->
