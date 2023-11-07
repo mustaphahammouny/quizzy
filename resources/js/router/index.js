@@ -11,8 +11,11 @@ import teacherRoutes from "./teacher";
 
 import { useAuthStore } from "@/stores/auth.store";
 
-// Frontend: Home
-const Home = () => import("@/views/HomeView.vue");
+// Home
+import Home from "@/views/HomeView.vue";
+
+// Errors
+import Error404 from "@/views/errors/404View.vue";
 
 // Set all routes
 const routes = [
@@ -30,6 +33,17 @@ const routes = [
     ...authRoutes,
     ...studentRoutes,
     ...teacherRoutes,
+    {
+        path: "/:pathMatch(.*)*",
+        component: LayoutSimple,
+        children: [
+            {
+                path: "",
+                name: "error.404",
+                component: Error404,
+            },
+        ],
+    },
 ];
 
 // Create Router
@@ -49,7 +63,7 @@ NProgress.configure({ showSpinner: false });
 
 router.beforeResolve((to, from, next) => {
     const auth = useAuthStore();
-    
+
     NProgress.start();
 
     if (to.meta.auth && !auth.user) {
