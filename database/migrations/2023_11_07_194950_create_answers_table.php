@@ -13,7 +13,14 @@ return new class extends Migration
     {
         Schema::create('answers', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+            $table->foreignId('question_id')
+                ->constrained('questions')
+                ->cascadeOnUpdate()
+                ->cascadeOnDelete();
+            $table->string('answer');
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
+            $table->softDeletes();
         });
     }
 

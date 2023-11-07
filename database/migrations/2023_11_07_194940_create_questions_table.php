@@ -13,7 +13,16 @@ return new class extends Migration
     {
         Schema::create('questions', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+            $table->foreignId('quiz_id')
+                ->constrained('quizzes')
+                ->cascadeOnUpdate()
+                ->cascadeOnDelete();
+            $table->unsignedTinyInteger('type');
+            $table->unsignedTinyInteger('time');
+            $table->string('question');
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
+            $table->softDeletes();
         });
     }
 

@@ -19,22 +19,12 @@ class QuizController extends Controller
         return QuizResource::collection($quizzes);
     }
 
-    public function create()
-    {
-        //
-    }
-
     public function store(Request $request)
     {
         //
     }
 
     public function show(Quiz $quiz)
-    {
-        //
-    }
-
-    public function edit(Quiz $quiz)
     {
         //
     }
