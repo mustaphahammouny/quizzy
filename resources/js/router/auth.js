@@ -8,24 +8,22 @@ const routes = [
     {
         path: "/auth",
         component: LayoutSimple,
+        meta: { guest: true },
         children: [
             {
                 path: "signin",
                 name: "auth.signin",
                 component: AuthSignIn,
-                meta: { guest: true },
             },
             {
                 path: "signup",
                 name: "auth.signup",
                 component: AuthSignUp,
-                meta: { guest: true },
             },
             {
                 path: "reminder",
                 name: "auth.reminder",
                 component: AuthReminder,
-                meta: { guest: true },
             },
         ],
     },

@@ -61,7 +61,7 @@ const rules = computed(() => {
 const v$ = useVuelidate(rules, state);
 
 // On form submission
-async function onSubmit() {
+const register = async () => {
     const result = await v$.value.$validate();
 
     if (!result) {
@@ -76,7 +76,7 @@ async function onSubmit() {
 
     // Go to dashboard
     router.push({ name: "backend-pages-auth" });
-}
+};
 </script>
 
 <template>
@@ -100,7 +100,7 @@ async function onSubmit() {
         <!-- Sign Up Form -->
         <div class="row g-0 justify-content-center">
             <div class="col-sm-8 col-xl-4">
-                <form @submit.prevent="onSubmit">
+                <form @submit.prevent="register">
                     <div class="form-floating mb-4">
                         <input type="text" class="form-control" id="first-name" name="first-name" placeholder="first name"
                             :class="{ 'is-invalid': v$.first_name.$errors.length }" v-model="state.first_name"

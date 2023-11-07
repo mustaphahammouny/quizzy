@@ -9,7 +9,7 @@ import authRoutes from "./auth";
 import studentRoutes from "./student";
 import teacherRoutes from "./teacher";
 
-import { useAuthStore } from "../stores/auth.store";
+import { useAuthStore } from "@/stores/auth.store";
 
 // Frontend: Home
 const Home = () => import("@/views/HomeView.vue");
@@ -48,14 +48,16 @@ const router = createRouter({
 NProgress.configure({ showSpinner: false });
 
 router.beforeResolve((to, from, next) => {
+    const auth = useAuthStore();
+    
     NProgress.start();
 
-    const auth = useAuthStore();
-
     if (to.meta.auth && !auth.user) {
-        next({name: 'auth.signin'});    
+        next({ name: "auth.signin" });
     } else if (to.meta.guest && auth.user) {
-        next({name: `${auth.user.role}.dashboard`});
+        next({ name: `${auth.user.role}.dashboard` });
+    } else if (to.meta.role && auth.user && to.meta.role != auth.user.role) {
+        next({ name: `${auth.user.role}.dashboard` });
     } else {
         next();
     }

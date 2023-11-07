@@ -1,26 +1,31 @@
 <script setup>
-import { reactive, computed } from "vue";
+import { reactive, computed, ref } from "vue";
 import { useRouter } from "vue-router";
 
 import LayoutAuth from "@/layouts/variations/Auth.vue";
+import Alert from "@/components/Alert.vue";
 
 // Vuelidate, for more info and examples you can check out https://github.com/vuelidate/vuelidate
 import useVuelidate from "@vuelidate/core";
 import { required, minLength } from "@vuelidate/validators";
 
-// Router
+import { useAuthStore } from "@/stores/auth.store";
+
 const router = useRouter();
+const auth = useAuthStore();
 
 // Input state variables
 const state = reactive({
-    username: null,
+    email: null,
     password: null,
 });
+
+const error = ref('');
 
 // Validation rules
 const rules = computed(() => {
     return {
-        username: {
+        email: {
             required,
             minLength: minLength(3),
         },
@@ -35,7 +40,7 @@ const rules = computed(() => {
 const v$ = useVuelidate(rules, state);
 
 // On form submission
-async function onSubmit() {
+const login = async () => {
     const result = await v$.value.$validate();
 
     if (!result) {
@@ -43,9 +48,14 @@ async function onSubmit() {
         return;
     }
 
-    // Go to dashboard
-    router.push({ name: "backend-pages-auth" });
-}
+    try {
+        await auth.login(state);
+
+        router.push({ name: `${auth.user.role}.dashboard` });
+    } catch (e) {
+        error.value = e.message;
+    }
+};
 </script>
 
 <template>
@@ -58,7 +68,8 @@ async function onSubmit() {
             <h1 class="fw-bold mb-2">Sign In</h1>
             <p class="fw-medium text-muted">
                 Don't have an account?
-                <RouterLink :to="{ name: 'auth.signup' }" class="text-primary fs-sm fw-medium d-block d-lg-inline-block mb-1">
+                <RouterLink :to="{ name: 'auth.signup' }"
+                    class="text-primary fs-sm fw-medium d-block d-lg-inline-block mb-1">
                     Sign up now
                 </RouterLink>
             </p>
@@ -68,23 +79,24 @@ async function onSubmit() {
         <!-- Sign Up Form -->
         <div class="row g-0 justify-content-center">
             <div class="col-sm-8 col-xl-4">
-                <form @submit.prevent="onSubmit">
-                    <div class="mb-4">
-                        <input type="text" class="form-control form-control-lg form-control-alt py-3" id="login-username"
-                            name="login-username" placeholder="Username" :class="{
-                                'is-invalid': v$.username.$errors.length,
-                            }" v-model="state.username" @blur="v$.username.$touch" />
-                        <div v-if="v$.username.$errors.length" class="invalid-feedback animated fadeIn">
-                            Please enter your username
+                <Alert v-if="error" variant="danger" icon="fa-times-circle" :message="error" />
+                <form @submit.prevent="login">
+                    <div class="form-floating mb-4">
+                        <input type="email" class="form-control" id="email" name="email" placeholder="email"
+                            :class="{ 'is-invalid': v$.email.$errors.length }" v-model="state.email"
+                            @blur="v$.email.$touch" />
+                        <label class="first-capitalize" for="email">email</label>
+                        <div v-if="v$.email.$errors.length" class="invalid-feedback animated fadeIn">
+                            {{ v$.email.$errors[0].$message }}
                         </div>
                     </div>
-                    <div class="mb-4">
-                        <input type="password" class="form-control form-control-lg form-control-alt py-3"
-                            id="login-password" name="login-password" placeholder="Password" :class="{
-                                'is-invalid': v$.password.$errors.length,
-                            }" v-model="state.password" @blur="v$.password.$touch" />
+                    <div class="form-floating mb-4">
+                        <input type="password" class="form-control" id="password" name="password" placeholder="password"
+                            :class="{ 'is-invalid': v$.password.$errors.length }" v-model="state.password"
+                            @blur="v$.password.$touch" />
+                        <label class="first-capitalize" for="password">password</label>
                         <div v-if="v$.password.$errors.length" class="invalid-feedback animated fadeIn">
-                            Please enter your password
+                            {{ v$.password.$errors[0].$message }}
                         </div>
                     </div>
                     <div class="mb-4">
@@ -95,9 +107,9 @@ async function onSubmit() {
                             </div>
                             <div class="py-2">
                                 <RouterLink :to="{ name: 'auth.reminder' }"
-                                class="text-primary fs-sm fw-medium d-block d-lg-inline-block mb-1">
-                                Forgot Password?
-                            </RouterLink>
+                                    class="text-primary fs-sm fw-medium d-block d-lg-inline-block mb-1">
+                                    Forgot Password?
+                                </RouterLink>
                             </div>
                         </div>
                     </div>

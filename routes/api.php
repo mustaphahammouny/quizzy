@@ -1,6 +1,8 @@
 <?php
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Student\QuizController as StudentQuizController;
+use App\Http\Controllers\Teacher\QuizController as TeacherQuizController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,6 +16,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('user', [AuthController::class, 'user']);
+
+    Route::middleware('role:teacher')->prefix('teacher')->group(function () {
+        Route::get('quizzez', [StudentQuizController::class, 'index']);
+    });
+
+    Route::middleware('role:student')->prefix('student')->group(function () {
+        Route::get('quizzez', [TeacherQuizController::class, 'index']);
+    });
 });

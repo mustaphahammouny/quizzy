@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const instance = axios.create({
-    // baseURL: `${import.meta.env.VITE_APP_URL}`,
+    // baseURL: `${import.meta.env.SPA_URL}`,
     withCredentials: true,
     headers: {
         'Content-Type': 'application/json',
@@ -20,13 +20,7 @@ const request = async ({method, url, data, headers}) => {
         config.data = data;
     }
 
-    try {
-        return await instance.request(config);
-    } catch (e) {
-        console.log(e.message);
-
-        return false;
-    }
+    return await instance.request(config);
 }
 
 export default {

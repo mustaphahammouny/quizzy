@@ -1,6 +1,8 @@
 <script setup>
 import { ref, watch, onMounted } from "vue";
+
 import { useTemplateStore } from "@/stores/template.store";
+import { useAuthStore } from "@/stores/auth.store";
 
 import BaseNavigation from "@/components/BaseNavigation.vue";
 
@@ -9,8 +11,6 @@ import SimpleBar from "simplebar";
 
 // Grab menu navigation arrays
 import menu from "@/data/menu";
-
-const navigation = menu.main;
 
 // Component properties
 defineProps({
@@ -21,8 +21,10 @@ defineProps({
     },
 });
 
-// Template store
 const template = useTemplateStore();
+const auth = useAuthStore();
+
+const navigation = menu[auth.user.role];
 
 // Dark Mode preference helper for radios
 const radioDarkMode = ref();
@@ -79,16 +81,16 @@ onMounted(() => {
 <template>
     <!-- Sidebar -->
     <!--
-        Sidebar Mini Mode - Display Helper classes
+                Sidebar Mini Mode - Display Helper classes
 
-        Adding 'smini-hide' class to an element will make it invisible (opacity: 0) when the sidebar is in mini mode
-        Adding 'smini-show' class to an element will make it visible (opacity: 1) when the sidebar is in mini mode
-        If you would like to disable the transition animation, make sure to also add the 'no-transition' class to your element
+                Adding 'smini-hide' class to an element will make it invisible (opacity: 0) when the sidebar is in mini mode
+                Adding 'smini-show' class to an element will make it visible (opacity: 1) when the sidebar is in mini mode
+                If you would like to disable the transition animation, make sure to also add the 'no-transition' class to your element
 
-        Adding 'smini-hidden' to an element will hide it when the sidebar is in mini mode
-        Adding 'smini-visible' to an element will show it (display: inline-block) only when the sidebar is in mini mode
-        Adding 'smini-visible-block' to an element will show it (display: block) only when the sidebar is in mini mode
-      -->
+                Adding 'smini-hidden' to an element will hide it when the sidebar is in mini mode
+                Adding 'smini-visible' to an element will show it (display: inline-block) only when the sidebar is in mini mode
+                Adding 'smini-visible-block' to an element will show it (display: block) only when the sidebar is in mini mode
+              -->
     <nav id="sidebar" :class="{ 'with-mini-nav': withMiniNav }" aria-label="Main Navigation">
         <slot>
             <!-- Side Header -->
@@ -100,7 +102,7 @@ onMounted(() => {
                             <i class="fa fa-circle-notch text-primary"></i>
                         </span>
                         <span class="smini-hide fs-5 tracking-wider">
-                            {{  template.app.name }}
+                            {{ template.app.name }}
                         </span>
                     </RouterLink>
                     <!-- END Logo -->

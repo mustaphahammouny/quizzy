@@ -5,16 +5,28 @@
  */
 
 export default {
-    main: [
+    teacher: [
         {
-            name: "Dashboard",
+            name: "dashboard",
+            to: "teacher.dashboard",
+            icon: "si si-speedometer",
+        },
+        {
+            name: "quizzes",
+            to: "teacher.quizzes",
+            icon: "si si-note",
+        },
+    ],
+    student: [
+        {
+            name: "dashboard",
             to: "student.dashboard",
             icon: "si si-speedometer",
         },
         {
-            name: "Dashboard",
-            to: "teacher.dashboard",
-            icon: "si si-speedometer",
+            name: "quizzes",
+            to: "student.quizzes",
+            icon: "si si-note",
         },
     ],
 };
