@@ -1,7 +1,7 @@
 <script setup></script>
 
 <template>
-    <BasePageHeading title="Dashboard" />
+    <BasePageHeading title="Create quiz" />
 
     <div class="content">
         <div class="row items-push">

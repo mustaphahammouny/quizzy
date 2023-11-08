@@ -1,4 +1,10 @@
-<script setup></script>
+<script setup>
+import { useTemplateStore } from '@/stores/template.store';
+import { useAuthStore } from '@/stores/auth.store';
+
+const template = useTemplateStore();
+const auth = useAuthStore();
+</script>
 
 <template>
     <!-- Hero -->
@@ -8,21 +14,24 @@
                 <div class="col-lg-8 col-xl-6">
                     <i class="fa fa-2x fa-circle-notch text-primary"></i>
                     <h1 class="fw=bold mt-3 mb-2">
-                        OneUI
-                        <span class="fw-light">Vue Edition</span>
+                        {{ template.app.name }}
                     </h1>
                     <p class="fs-lg fw-medium text-muted mb-4">
-                        This is a simple layout based page which you can use as a base for
-                        your landing, authentication, status or error pages.
+                        {{ template.app.description }}
                     </p>
-                    <RouterLink :to="{ name: 'student.dashboard' }" class="btn btn-primary px-4 py-3" v-click-ripple>
-                        Enter Student Dashboard
-                        <i class="fa fa-fw fa-arrow-right ms-1 opacity-50"></i>
-                    </RouterLink>
-                    <RouterLink :to="{ name: 'teacher.dashboard' }" class="btn btn-primary px-4 py-3" v-click-ripple>
-                        Enter Teacher Dashboard
-                        <i class="fa fa-fw fa-arrow-right ms-1 opacity-50"></i>
-                    </RouterLink>
+                    <template v-if="auth.user">
+                        <RouterLink :to="{ name: `${auth.user.role}.dashboard` }" class="btn btn-primary px-4 py-3"
+                            v-click-ripple>
+                            Dashboard
+                            <i class="fa fa-fw fa-arrow-right ms-1 opacity-50"></i>
+                        </RouterLink>
+                    </template>
+                    <template v-else>
+                        <RouterLink :to="{ name: 'auth.signin' }" class="btn btn-primary px-4 py-3" v-click-ripple>
+                            Sign in
+                            <i class="fa fa-fw fa-arrow-right ms-1 opacity-50"></i>
+                        </RouterLink>
+                    </template>
                 </div>
             </div>
         </div>

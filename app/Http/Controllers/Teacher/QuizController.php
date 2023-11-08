@@ -12,9 +12,7 @@ class QuizController extends Controller
 {
     public function index()
     {
-        $quizzes = Quiz::with('teacher')
-            ->where('user_id', Auth::id())
-            ->paginate(9);
+        $quizzes = Quiz::where('user_id', Auth::id())->get();
 
         return QuizResource::collection($quizzes);
     }

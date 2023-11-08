@@ -2,6 +2,7 @@ import LayoutBackend from "@/layouts/variations/Backend.vue";
 
 const Dashboard = () => import("@/views/teacher/DashboardView.vue");
 const Quizzes = () => import("@/views/teacher/QuizzesView.vue");
+const Quiz = () => import("@/views/teacher/QuizView.vue");
 
 const routes = [
     {
@@ -17,8 +18,23 @@ const routes = [
             },
             {
                 path: "quizzes",
-                name: "teacher.quizzes",
-                component: Quizzes,
+                children: [
+                    {
+                        path: "",
+                        name: "teacher.quizzes",
+                        component: Quizzes,
+                    },
+                    {
+                        path: "create",
+                        name: "teacher.quizzes.create",
+                        component: Quiz,
+                    },
+                    {
+                        path: "edit",
+                        name: "teacher.quizzes.edit",
+                        component: Quiz,
+                    },
+                ],
             },
         ],
     },

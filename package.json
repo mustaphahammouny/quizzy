@@ -19,6 +19,7 @@
         "simplebar": "^6.2.5",
         "vite": "^4.0.0",
         "vue": "^3.3.7",
+        "vue-dataset": "^3.6.1",
         "vue-router": "^4.2.5"
     }
 }

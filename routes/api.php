@@ -20,10 +20,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('user', [AuthController::class, 'user']);
 
     Route::middleware('role:teacher')->prefix('teacher')->group(function () {
-        Route::get('quizzez', [StudentQuizController::class, 'index']);
+        Route::get('quizzes', [TeacherQuizController::class, 'index']);
     });
 
     Route::middleware('role:student')->prefix('student')->group(function () {
-        Route::get('quizzez', [TeacherQuizController::class, 'index']);
+        Route::get('quizzes', [StudentQuizController::class, 'index']);
     });
 });
