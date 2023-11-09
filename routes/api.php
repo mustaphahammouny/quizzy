@@ -21,6 +21,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::middleware('role:teacher')->prefix('teacher')->group(function () {
         Route::get('quizzes', [TeacherQuizController::class, 'index']);
+        Route::post('quizzes', [TeacherQuizController::class, 'store']);
     });
 
     Route::middleware('role:student')->prefix('student')->group(function () {

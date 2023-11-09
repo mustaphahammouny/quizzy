@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Teacher;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreQuizRequest;
 use App\Http\Resources\QuizResource;
 use App\Models\Quiz;
 use Illuminate\Http\Request;
@@ -17,9 +18,15 @@ class QuizController extends Controller
         return QuizResource::collection($quizzes);
     }
 
-    public function store(Request $request)
+    public function store(StoreQuizRequest $request)
     {
-        //
+        $data = $request->validated();
+
+        $data['user_id'] = Auth::id();
+
+        $quiz = Quiz::create($data);
+
+        return new QuizResource($quiz);
     }
 
     public function show(Quiz $quiz)

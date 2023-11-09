@@ -21,7 +21,7 @@ const routes = [
                 children: [
                     {
                         path: "",
-                        name: "teacher.quizzes",
+                        name: "teacher.quizzes.index",
                         component: Quizzes,
                     },
                     {

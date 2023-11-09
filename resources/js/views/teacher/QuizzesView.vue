@@ -10,22 +10,20 @@ import {
     DatasetShow,
 } from "vue-dataset";
 
-import { useAuthStore } from '@/stores/auth.store';
-
 import http from '@/support/http';
-
-const auth = useAuthStore();
 
 const cols = reactive([
     {
         name: "Name",
         field: "name",
         sort: "",
+        with: "50%",
     },
     {
         name: "Created at",
         field: "created_at",
         sort: "",
+        with: "50%",
     },
 ]);
 
@@ -67,6 +65,10 @@ const onSort = (event, i) => {
     sortEl.sort = toset;
 };
 
+const deleteQuiz = (quiz) => {
+    console.log(quiz);
+};
+
 onBeforeMount(async () => {
     try {
         const response = await http.get("api/teacher/quizzes");
@@ -92,64 +94,10 @@ onMounted(() => {
 });
 </script>
 
-<style lang="scss" scoped>
-.gg-select {
-    box-sizing: border-box;
-    position: relative;
-    display: block;
-    transform: scale(1);
-    width: 22px;
-    height: 22px;
-}
-
-.gg-select::after,
-.gg-select::before {
-    content: "";
-    display: block;
-    box-sizing: border-box;
-    position: absolute;
-    width: 8px;
-    height: 8px;
-    left: 7px;
-    transform: rotate(-45deg);
-}
-
-.gg-select::before {
-    border-left: 2px solid;
-    border-bottom: 2px solid;
-    bottom: 4px;
-    opacity: 0.3;
-}
-
-.gg-select::after {
-    border-right: 2px solid;
-    border-top: 2px solid;
-    top: 4px;
-    opacity: 0.3;
-}
-
-th.sort {
-    cursor: pointer;
-    user-select: none;
-
-    &.asc {
-        .gg-select::after {
-            opacity: 1;
-        }
-    }
-
-    &.desc {
-        .gg-select::before {
-            opacity: 1;
-        }
-    }
-}
-</style>
-
 <template>
     <BasePageHeading title="Quizzes">
         <template #extra>
-            <RouterLink :to="{ name: `${auth.user.role}.quizzes.create` }" class="btn btn-alt-primary" v-click-ripple>
+            <RouterLink :to="{ name: 'teacher.quizzes.create' }" class="btn btn-alt-primary" v-click-ripple>
                 <i class="fa fa-plus opacity-50 me-1"></i>
                 New Quiz
             </RouterLink>
@@ -175,9 +123,12 @@ th.sort {
                                 <thead>
                                     <tr>
                                         <th v-for="(th, index) in cols" :key="th.field" :class="['sort', th.sort]"
-                                            @click="onSort($event, index)">
-                                            {{ th.name }} <i class="gg-select float-end"></i>
+                                            @click="onSort($event, index)" :width="th.with ?? 'auto'">
+                                            <span class="float-start">{{ th.name }}</span>
+                                            <i class="gg-select float-end"></i>
                                         </th>
+                                        <th class="text-center">Status</th>
+                                        <th class="text-center">Action</th>
                                     </tr>
                                 </thead>
                                 <DatasetItem tag="tbody" class="fs-sm">
@@ -185,6 +136,26 @@ th.sort {
                                         <tr>
                                             <td>{{ row.name }}</td>
                                             <td>{{ row.created_at }}</td>
+                                            <td class="text-center">
+                                                <span class="badge"
+                                                    :class="{ 'text-bg-success': row.active, 'text-bg-danger': !row.active }">
+                                                    {{ row.active ? 'Active' : 'Inactive' }}
+                                                </span>
+                                            </td>
+                                            <td class="text-center">
+                                                <div class="btn-group" role="group">
+                                                    <button type="button" class="btn btn-sm btn-alt-success">
+                                                        <i class="fa fa-fw fa-question"></i>
+                                                    </button>
+                                                    <button type="button" class="btn btn-sm btn-alt-primary">
+                                                        <i class="fa fa-fw fa-pencil-alt"></i>
+                                                    </button>
+                                                    <button type="button" v-on:click="$event => deleteQuiz(row)"
+                                                        class="btn btn-sm btn-alt-danger">
+                                                        <i class="fa fa-fw fa-trash-alt"></i>
+                                                    </button>
+                                                </div>
+                                            </td>
                                         </tr>
                                     </template>
                                 </DatasetItem>
@@ -200,3 +171,7 @@ th.sort {
         </BaseBlock>
     </div>
 </template>
+
+<style lang="scss" scoped>
+@import "@/assets/scss/custom/dataset";
+</style>

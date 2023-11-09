@@ -13,7 +13,7 @@ export default {
         },
         {
             name: "quizzes",
-            to: "teacher.quizzes",
+            to: "teacher.quizzes.index",
             icon: "si si-note",
         },
     ],
@@ -25,7 +25,7 @@ export default {
         },
         {
             name: "quizzes",
-            to: "student.quizzes",
+            to: "student.quizzes.index",
             icon: "si si-note",
         },
     ],
