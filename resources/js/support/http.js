@@ -11,9 +11,9 @@ const instance = axios.create({
     },
 });
 
-const router = useRouter();
-
 const request = async ({ method, url, data, headers }) => {
+    const router = useRouter();
+
     const config = {
         method: method,
         url: url,

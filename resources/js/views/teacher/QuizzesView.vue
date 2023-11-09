@@ -11,6 +11,7 @@ import {
 } from "vue-dataset";
 
 import http from '@/support/http';
+import alert from '@/support/alert';
 
 const cols = reactive([
     {
@@ -66,7 +67,18 @@ const onSort = (event, i) => {
 };
 
 const deleteQuiz = (quiz) => {
-    console.log(quiz);
+    alert.confirm({
+        text: 'All the questions related to this quiz will be deleted!',
+        callback: async () => {
+            try {
+                await http.delete(`api/teacher/quizzes/${quiz.id}`);
+
+                quizzes.value = quizzes.value.filter((item) => item.id !== quiz.id);
+            } catch (e) {
+                console.log(e.response.data.message ?? e.response.message);
+            }
+        },
+    });
 };
 
 onBeforeMount(async () => {
