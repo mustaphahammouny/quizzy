@@ -1,8 +1,16 @@
 import LayoutBackend from "@/layouts/variations/Backend.vue";
 
 const Dashboard = () => import("@/views/teacher/DashboardView.vue");
-const Quizzes = () => import("@/views/teacher/QuizzesView.vue");
-const Quiz = () => import("@/views/teacher/QuizView.vue");
+
+const IndexQuiz = () => import("@/views/teacher/quizzes/IndexView.vue");
+const CreateQuiz = () => import("@/views/teacher/quizzes/CreateView.vue");
+const EditQuiz = () => import("@/views/teacher/quizzes/EditView.vue");
+
+const CreateQuestion = () => import("@/views/teacher/questions/CreateView.vue");
+const EditQuestion = () => import("@/views/teacher/questions/EditView.vue");
+
+const CreateAnswer = () => import("@/views/teacher/answers/CreateView.vue");
+const EditAnswer = () => import("@/views/teacher/answers/EditView.vue");
 
 const routes = [
     {
@@ -22,19 +30,49 @@ const routes = [
                     {
                         path: "",
                         name: "teacher.quizzes.index",
-                        component: Quizzes,
+                        component: IndexQuiz,
                     },
                     {
                         path: "create",
                         name: "teacher.quizzes.create",
-                        component: Quiz,
+                        component: CreateQuiz,
                     },
                     {
-                        path: "edit",
+                        path: ":id/edit",
                         name: "teacher.quizzes.edit",
-                        component: Quiz,
+                        component: EditQuiz,
+                    },
+                    {
+                        path: ":quizId/questions/create",
+                        name: "teacher.questions.create",
+                        component: CreateQuestion,
+                    },
+                    {
+                        path: ":quizId/questions/:id/edit",
+                        name: "teacher.questions.edit",
+                        component: EditQuestion,
                     },
                 ],
+            },
+            // {
+            //     path: "quizzes/:id/questions/create",
+            //     name: "teacher.questions.create",
+            //     component: CreateQuestion,
+            // },
+            // {
+            //     path: "questions/edit/:id",
+            //     name: "teacher.questions.edit",
+            //     component: EditQuestion,
+            // },
+            {
+                path: "questions/:id/answers/create",
+                name: "teacher.answers.create",
+                component: CreateAnswer,
+            },
+            {
+                path: "answers/edit/:id",
+                name: "teacher.answers.edit",
+                component: EditAnswer,
             },
         ],
     },

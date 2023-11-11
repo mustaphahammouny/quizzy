@@ -10,18 +10,18 @@ import {
     DatasetShow,
 } from "vue-dataset";
 
-import http from '@/support/http';
 import alert from '@/support/alert';
+import dataset from '@/support/dataset';
 
 const cols = reactive([
     {
-        name: "Name",
+        name: "name",
         field: "name",
         sort: "",
         with: "50%",
     },
     {
-        name: "Created at",
+        name: "created at",
         field: "created_at",
         sort: "",
         with: "50%",
@@ -31,40 +31,8 @@ const cols = reactive([
 const quizzes = ref([]);
 
 const sortBy = computed(() => {
-    return cols.reduce((acc, o) => {
-        if (o.sort) {
-            o.sort === "asc" ? acc.push(o.field) : acc.push("-" + o.field);
-        }
-        return acc;
-    }, []);
+    return dataset.sortBy(cols);
 });
-
-const onSort = (event, i) => {
-    let toset;
-    const sortEl = cols[i];
-
-    if (!event.shiftKey) {
-        cols.forEach((o) => {
-            if (o.field !== sortEl.field) {
-                o.sort = "";
-            }
-        });
-    }
-
-    if (!sortEl.sort) {
-        toset = "asc";
-    }
-
-    if (sortEl.sort === "desc") {
-        toset = event.shiftKey ? "" : "asc";
-    }
-
-    if (sortEl.sort === "asc") {
-        toset = "desc";
-    }
-
-    sortEl.sort = toset;
-};
 
 const deleteQuiz = (quiz) => {
     alert.confirm({
@@ -74,8 +42,8 @@ const deleteQuiz = (quiz) => {
                 await http.delete(`api/teacher/quizzes/${quiz.id}`);
 
                 quizzes.value = quizzes.value.filter((item) => item.id !== quiz.id);
-            } catch (e) {
-                console.log(e.response.data.message ?? e.response.message);
+            } catch (error) {
+                console.log(error.response.message ?? error.response.data.message);
             }
         },
     });
@@ -86,23 +54,13 @@ onBeforeMount(async () => {
         const response = await http.get("api/teacher/quizzes");
 
         quizzes.value = response.data.data;
-    } catch (e) {
-        console.log(e.response.data.message);
+    } catch (error) {
+        console.log(error.response.data.message);
     }
 });
 
 onMounted(() => {
-    // Remove labels from
-    document.querySelectorAll("#datasetLength label").forEach((el) => {
-        el.remove();
-    });
-
-    // Replace select classes
-    let selectLength = document.querySelector("#datasetLength select");
-
-    selectLength.classList = "";
-    selectLength.classList.add("form-select");
-    selectLength.style.width = "80px";
+    dataset.css();
 });
 </script>
 
@@ -111,7 +69,7 @@ onMounted(() => {
         <template #extra>
             <RouterLink :to="{ name: 'teacher.quizzes.create' }" class="btn btn-alt-primary" v-click-ripple>
                 <i class="fa fa-plus opacity-50 me-1"></i>
-                New Quiz
+                Add Quiz
             </RouterLink>
         </template>
     </BasePageHeading>
@@ -135,7 +93,7 @@ onMounted(() => {
                                 <thead>
                                     <tr>
                                         <th v-for="(th, index) in cols" :key="th.field" :class="['sort', th.sort]"
-                                            @click="onSort($event, index)" :width="th.with ?? 'auto'">
+                                            @click="dataset.onSort($event, cols, index)" :width="th.with ?? 'auto'">
                                             <span class="float-start">{{ th.name }}</span>
                                             <i class="gg-select float-end"></i>
                                         </th>
@@ -156,12 +114,11 @@ onMounted(() => {
                                             </td>
                                             <td class="text-center">
                                                 <div class="btn-group" role="group">
-                                                    <button type="button" class="btn btn-sm btn-alt-success">
-                                                        <i class="fa fa-fw fa-question"></i>
-                                                    </button>
-                                                    <button type="button" class="btn btn-sm btn-alt-primary">
+                                                    <RouterLink
+                                                        :to="{ name: 'teacher.quizzes.edit', params: { id: row.id } }"
+                                                        class="btn btn-sm btn-alt-success">
                                                         <i class="fa fa-fw fa-pencil-alt"></i>
-                                                    </button>
+                                                    </RouterLink>
                                                     <button type="button" v-on:click="$event => deleteQuiz(row)"
                                                         class="btn btn-sm btn-alt-danger">
                                                         <i class="fa fa-fw fa-trash-alt"></i>

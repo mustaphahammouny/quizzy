@@ -13,8 +13,8 @@ const logout = async () => {
         await auth.logout();
 
         router.push({ name: 'auth.signin' });
-    } catch (e) {
-        console.log(e.message);
+    } catch (error) {
+        console.log(error.message);
     }
 };
 </script>

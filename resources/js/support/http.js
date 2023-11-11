@@ -1,8 +1,5 @@
 import axios from "axios";
 
-import { useRouter } from "vue-router";
-import { useAuthStore } from "@/stores/auth.store";
-
 const instance = axios.create({
     // baseURL: `${import.meta.env.SPA_URL}`,
     withCredentials: true,
@@ -12,8 +9,6 @@ const instance = axios.create({
 });
 
 const request = async ({ method, url, data, headers }) => {
-    const router = useRouter();
-
     const config = {
         method: method,
         url: url,
@@ -27,15 +22,8 @@ const request = async ({ method, url, data, headers }) => {
 
     try {
         return await instance.request(config);
-    } catch (e) {
-        const auth = useAuthStore();
-
-        if (e.response.status === 401) {
-            await auth.logout();
-            router.push({ name: "auth.signin" });
-        } else {
-            throw new Error(e.response.data.message);
-        }
+    } catch (error) {
+        throw error;
     }
 };
 

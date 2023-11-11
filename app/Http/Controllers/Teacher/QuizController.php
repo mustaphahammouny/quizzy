@@ -4,9 +4,9 @@ namespace App\Http\Controllers\Teacher;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreQuizRequest;
+use App\Http\Requests\UpdateQuizRequest;
 use App\Http\Resources\QuizResource;
 use App\Models\Quiz;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class QuizController extends Controller
@@ -31,12 +31,14 @@ class QuizController extends Controller
 
     public function show(Quiz $quiz)
     {
-        //
+        return new QuizResource($quiz);
     }
 
-    public function update(Request $request, Quiz $quiz)
+    public function update(UpdateQuizRequest $request, Quiz $quiz)
     {
-        //
+        $quiz->update($request->validated());
+
+        return new QuizResource($quiz);
     }
 
     public function destroy(Quiz $quiz)

@@ -5,8 +5,6 @@ import { useRouter } from "vue-router";
 import useVuelidate from "@vuelidate/core";
 import { required, minLength } from "@vuelidate/validators";
 
-import http from '@/support/http';
-
 const router = useRouter();
 
 const state = reactive({
@@ -25,7 +23,7 @@ const rules = computed(() => {
 
 const v$ = useVuelidate(rules, state);
 
-const createQuiz = async () => {
+const save = async () => {
     const result = await v$.value.$validate();
 
     if (!result) {
@@ -36,18 +34,25 @@ const createQuiz = async () => {
         await http.post("api/teacher/quizzes", state);
 
         router.push({ name: `teacher.quizzes.index` });
-    } catch (e) {
-        console.log(e.response.data.message);
+    } catch (error) {
+        console.log(error.response.data.message);
     }
 };
 </script>
 
 <template>
-    <BasePageHeading title="Create quiz" />
+    <BasePageHeading title="Create quiz">
+        <template #extra>
+            <RouterLink :to="{ name: 'teacher.quizzes.index' }" class="btn btn-alt-secondary" v-click-ripple>
+                <i class="fa fa-undo opacity-50 me-1"></i>
+                Back
+            </RouterLink>
+        </template>
+    </BasePageHeading>
 
     <div class="content">
         <BaseBlock content-full>
-            <form @submit.prevent="createQuiz">
+            <form @submit.prevent="save">
                 <div class="form-floating mb-4">
                     <input type="text" class="form-control" id="name" name="name" placeholder="name"
                         :class="{ 'is-invalid': v$.name.$errors.length }" v-model="state.name" @blur="v$.name.$touch" />
@@ -63,8 +68,8 @@ const createQuiz = async () => {
                     </div>
                 </div>
                 <div class="text-center">
-                    <button type="submit" class="btn btn-lg btn-alt-success">
-                        <i class="fa fa-fw fa-plus me-1 opacity-50"></i> Create
+                    <button type="submit" class="btn btn-lg btn-alt-primary">
+                        <i class="fa fa-fw fa-save me-1 opacity-50"></i> Save
                     </button>
                 </div>
             </form>

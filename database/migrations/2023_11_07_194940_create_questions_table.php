@@ -17,9 +17,9 @@ return new class extends Migration
                 ->constrained('quizzes')
                 ->cascadeOnUpdate()
                 ->cascadeOnDelete();
+            $table->string('question');
             $table->unsignedTinyInteger('type');
             $table->unsignedTinyInteger('time');
-            $table->string('question');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
             $table->softDeletes();

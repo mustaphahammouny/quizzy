@@ -1,7 +1,5 @@
 import { defineStore } from "pinia";
 
-import http from "@/support/http";
-
 export const useAuthStore = defineStore({
     id: "auth",
     state: () => ({
@@ -23,10 +21,10 @@ export const useAuthStore = defineStore({
                 const response = await http.get("api/user");
 
                 this.setUser(response.data.data);
-            } catch (e) {
+            } catch (error) {
                 let message = "Something went wrong!";
 
-                throw new Error(e.response.data.message ?? message);
+                throw new Error(error.response.data.message ?? message);
             }
         },
         async login(credentials) {
@@ -34,10 +32,10 @@ export const useAuthStore = defineStore({
                 await http.post("login", credentials);
 
                 await this.attempt();
-            } catch (e) {
+            } catch (error) {
                 let message = "Something went wrong!";
 
-                throw new Error(e.response.data.message ?? message);
+                throw new Error(error.response.data.message ?? message);
             }
         },
         async logout() {

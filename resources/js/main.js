@@ -18,6 +18,10 @@ import clickRipple from "@/directives/clickRipple";
 import * as bootstrap from "bootstrap";
 window.bootstrap = bootstrap;
 
+// http
+import http from "@/support/http";
+window.http = http;
+
 // Craft new application
 const app = createApp(App);
 
