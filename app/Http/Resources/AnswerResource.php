@@ -16,6 +16,7 @@ class AnswerResource extends JsonResource
     {
         return [
             'id' => $this->id,
+            'question_id' => $this->question_id,
             'answer' => $this->answer,
             'correct' => $this->correct,
             'created_at' => $this->created_at->format('Y-m-d'),

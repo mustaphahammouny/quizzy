@@ -2,14 +2,14 @@
 import { onBeforeMount } from "vue";
 import { useRouter, useRoute } from "vue-router";
 
-import FormView from "@/views/teacher/questions/FormView.vue";
+import FormView from "@/views/teacher/answers/FormView.vue";
 
 const router = useRouter();
 const route = useRoute();
 
 onBeforeMount(async () => {
     try {
-        await http.get(`api/teacher/quizzes/${route.params.quizId}`);
+        await http.get(`api/teacher/questions/${route.params.questionId}`);
     } catch (error) {
         if (error.response.status == 404) {
             router.push({ name: 'error.404' });
@@ -21,5 +21,5 @@ onBeforeMount(async () => {
 </script>
 
 <template>
-    <FormView :quiz-id="route.params.quizId" title="Create question" />
+    <FormView :question-id="route.params.questionId" title="Create answer" />
 </template>

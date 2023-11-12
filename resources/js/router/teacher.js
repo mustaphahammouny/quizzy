@@ -47,32 +47,32 @@ const routes = [
                         name: "teacher.questions.create",
                         component: CreateQuestion,
                     },
+                ],
+            },
+            {
+                path: "questions",
+                children: [
                     {
-                        path: ":quizId/questions/:id/edit",
+                        path: ":id/edit",
                         name: "teacher.questions.edit",
                         component: EditQuestion,
                     },
+                    {
+                        path: ":questionId/answers/create",
+                        name: "teacher.answers.create",
+                        component: CreateAnswer,
+                    },
                 ],
             },
-            // {
-            //     path: "quizzes/:id/questions/create",
-            //     name: "teacher.questions.create",
-            //     component: CreateQuestion,
-            // },
-            // {
-            //     path: "questions/edit/:id",
-            //     name: "teacher.questions.edit",
-            //     component: EditQuestion,
-            // },
             {
-                path: "questions/:id/answers/create",
-                name: "teacher.answers.create",
-                component: CreateAnswer,
-            },
-            {
-                path: "answers/edit/:id",
-                name: "teacher.answers.edit",
-                component: EditAnswer,
+                path: "answers",
+                children: [
+                    {
+                        path: ":id/edit",
+                        name: "teacher.answers.edit",
+                        component: EditAnswer,
+                    },
+                ],
             },
         ],
     },

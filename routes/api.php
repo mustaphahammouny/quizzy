@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Student\QuizController as StudentQuizController;
 use App\Http\Controllers\Teacher\QuizController as TeacherQuizController;
 use App\Http\Controllers\Teacher\QuestionController as TeacherQuestionController;
+use App\Http\Controllers\Teacher\AnswerController as TeacherAnswerController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -24,6 +25,8 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::apiResource('quizzes', TeacherQuizController::class);
 
         Route::apiResource('questions', TeacherQuestionController::class)->except(['index']);
+
+        Route::apiResource('answers', TeacherAnswerController::class)->except(['index']);
     });
 
     Route::middleware('role:student')->prefix('student')->group(function () {

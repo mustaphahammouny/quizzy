@@ -11,67 +11,41 @@ import {
     DatasetShow,
 } from "vue-dataset";
 
-import useVuelidate from "@vuelidate/core";
-import { required, minLength } from "@vuelidate/validators";
-
 import alert from '@/support/alert';
 import dataset from '@/support/dataset';
 
+import FormView from "@/views/teacher/quizzes/FormView.vue";
+
 const router = useRouter();
 const route = useRoute();
-
-const state = reactive({
-    name: null,
-    active: false,
-});
 
 const cols = reactive([
     {
         name: "question",
         field: "question",
         sort: "",
-        with: "50%",
+        with: "60%",
     },
     {
         name: "type",
         field: "type",
         sort: "",
-        with: "50%",
+        with: "20%",
+    },
+    {
+        name: "time (min)",
+        field: "time",
+        sort: "",
+        with: "20%",
     },
 ]);
 
+const quiz = ref(null);
 const questions = ref([]);
-
-const rules = computed(() => {
-    return {
-        name: {
-            required,
-            minLength: minLength(3),
-        },
-    };
-});
 
 const sortBy = computed(() => {
     return dataset.sortBy(cols);
 });
-
-const v$ = useVuelidate(rules, state);
-
-const save = async () => {
-    const result = await v$.value.$validate();
-
-    if (!result) {
-        return;
-    }
-
-    try {
-        await http.put(`api/teacher/quizzes/${route.params.id}`, state);
-
-        router.push({ name: `teacher.quizzes.index` });
-    } catch (error) {
-        console.log(error.response.data.message);
-    }
-};
 
 const deleteQuestion = (question) => {
     alert.confirm({
@@ -92,8 +66,7 @@ onBeforeMount(async () => {
     try {
         const response = await http.get(`api/teacher/quizzes/${route.params.id}`);
 
-        state.name = response.data.data.name;
-        state.active = response.data.data.active;
+        quiz.value = response.data.data;
         questions.value = response.data.data.questions;
     } catch (error) {
         if (error.response.status == 404) {
@@ -110,40 +83,9 @@ onMounted(() => {
 </script>
 
 <template>
-    <BasePageHeading title="Edit quiz">
-        <template #extra>
-            <RouterLink :to="{ name: 'teacher.quizzes.index' }" class="btn btn-alt-secondary" v-click-ripple>
-                <i class="fa fa-fw fa-undo opacity-50 me-1"></i>
-                Back
-            </RouterLink>
-        </template>
-    </BasePageHeading>
+    <FormView v-if="quiz" :quiz="quiz" title="Edit quiz" />
 
-    <div class="content">
-        <BaseBlock content-full>
-            <form @submit.prevent="save">
-                <div class="form-floating mb-4">
-                    <input type="text" class="form-control" id="name" name="name" placeholder="name"
-                        :class="{ 'is-invalid': v$.name.$errors.length }" v-model="state.name" @blur="v$.name.$touch" />
-                    <label class="first-capitalize" for="name">name</label>
-                    <div v-if="v$.name.$errors.length" class="invalid-feedback animated fadeIn">
-                        {{ v$.name.$errors[0].$message }}
-                    </div>
-                </div>
-                <div class="mb-4">
-                    <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" id="active" name="active" v-model="state.active">
-                        <label class="form-check-label" for="active">Active</label>
-                    </div>
-                </div>
-                <div class="text-center">
-                    <button type="submit" class="btn btn-lg btn-alt-primary">
-                        <i class="fa fa-fw fa-save me-1 opacity-50"></i> Save
-                    </button>
-                </div>
-            </form>
-        </BaseBlock>
-
+    <div class="content pt-0">
         <BaseBlock title="Questions" content-full>
             <template #options>
                 <RouterLink :to="{ name: 'teacher.questions.create', params: { quizId: route.params.id } }"
@@ -181,10 +123,11 @@ onMounted(() => {
                                         <tr>
                                             <td>{{ row.question }}</td>
                                             <td>{{ row.type.name }}</td>
+                                            <td>{{ row.time }}</td>
                                             <td class="text-center">
                                                 <div class="btn-group" role="group">
                                                     <RouterLink
-                                                        :to="{ name: 'teacher.questions.edit', params: { quizId: route.params.id, id: row.id } }"
+                                                        :to="{ name: 'teacher.questions.edit', params: { id: row.id } }"
                                                         class="btn btn-sm btn-alt-success">
                                                         <i class="fa fa-fw fa-pencil-alt"></i>
                                                     </RouterLink>
