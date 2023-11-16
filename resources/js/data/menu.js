@@ -28,5 +28,10 @@ export default {
             to: "student.quizzes.index",
             icon: "si si-note",
         },
+        {
+            name: "favorite quizzes",
+            to: "student.quizzes.favorite",
+            icon: "si si-note",
+        },
     ],
 };

@@ -33,7 +33,7 @@ const cols = reactive([
         with: "20%",
     },
     {
-        name: "time (min)",
+        name: "time (second)",
         field: "time",
         sort: "",
         with: "20%",

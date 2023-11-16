@@ -9,5 +9,7 @@ class FavoriteQuiz extends Pivot
 {
     use HasFactory;
 
+    protected $table = 'favorite_quizzes';
+
     protected $guarded = [];
 }

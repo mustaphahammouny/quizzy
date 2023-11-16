@@ -38,12 +38,12 @@ const routes = [
                         component: CreateQuiz,
                     },
                     {
-                        path: ":id/edit",
+                        path: ":id(\\d+)/edit",
                         name: "teacher.quizzes.edit",
                         component: EditQuiz,
                     },
                     {
-                        path: ":quizId/questions/create",
+                        path: ":quizId(\\d+)/questions/create",
                         name: "teacher.questions.create",
                         component: CreateQuestion,
                     },
@@ -53,12 +53,12 @@ const routes = [
                 path: "questions",
                 children: [
                     {
-                        path: ":id/edit",
+                        path: ":id(\\d+)/edit",
                         name: "teacher.questions.edit",
                         component: EditQuestion,
                     },
                     {
-                        path: ":questionId/answers/create",
+                        path: ":questionId(\\d+)/answers/create",
                         name: "teacher.answers.create",
                         component: CreateAnswer,
                     },
@@ -68,7 +68,7 @@ const routes = [
                 path: "answers",
                 children: [
                     {
-                        path: ":id/edit",
+                        path: ":id(\\d+)/edit",
                         name: "teacher.answers.edit",
                         component: EditAnswer,
                     },

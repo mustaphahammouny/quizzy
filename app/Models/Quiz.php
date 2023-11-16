@@ -20,7 +20,7 @@ class Quiz extends Model
         'active' => 'boolean',
     ];
 
-    public function teacher(): BelongsTo
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
@@ -32,13 +32,7 @@ class Quiz extends Model
 
     public function favoriteUsers(): BelongsToMany
     {
-        return $this->belongsToMany(Quiz::class)
+        return $this->belongsToMany(User::class, 'favorite_quizzes')
             ->using(FavoriteQuiz::class);
-    }
-
-    public function enrolledUsers(): BelongsToMany
-    {
-        return $this->belongsToMany(User::class)
-            ->using(EnrolledQuiz::class);
     }
 }

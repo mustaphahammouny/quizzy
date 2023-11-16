@@ -1,7 +1,10 @@
 import LayoutBackend from "@/layouts/variations/Backend.vue";
 
 const Dashboard = () => import("@/views/student/DashboardView.vue");
-const Quizzes = () => import("@/views/student/QuizzesView.vue");
+
+const IndexQuiz = () => import("@/views/student/quizzes/IndexView.vue");
+const FavoriteQuiz = () => import("@/views/student/quizzes/FavoriteView.vue");
+const ShowQuiz = () => import("@/views/student/quizzes/ShowView.vue");
 
 const routes = [
     {
@@ -14,13 +17,26 @@ const routes = [
                 path: "dashboard",
                 name: "student.dashboard",
                 component: Dashboard,
-                meta: { auth: true },
             },
             {
                 path: "quizzes",
-                name: "student.quizzes",
-                component: Quizzes,
-                meta: { auth: true },
+                children: [
+                    {
+                        path: "",
+                        name: "student.quizzes.index",
+                        component: IndexQuiz,
+                    },
+                    {
+                        path: "favorite",
+                        name: "student.quizzes.favorite",
+                        component: FavoriteQuiz,
+                    },
+                    {
+                        path: ":id(\\d+)/show",
+                        name: "student.quizzes.show",
+                        component: ShowQuiz,
+                    },
+                ],
             },
         ],
     },

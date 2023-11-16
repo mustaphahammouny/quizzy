@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Teacher;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreQuestionRequest;
 use App\Http\Requests\UpdateQuestionRequest;
-use App\Http\Resources\QuestionResource;
+use App\Http\Resources\Teacher\QuestionResource;
 use App\Models\Question;
 use Illuminate\Support\Facades\Auth;
 
