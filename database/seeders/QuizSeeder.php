@@ -12,6 +12,7 @@ class QuizSeeder extends Seeder
     private $quizzes = [
         [
             'name' => 'html/css',
+            'tags' => ['web', 'development', 'frontend', 'html', 'css'],
             'questions' => [
                 [
                     'question' => 'Which of the following tags is used to create an unordered list in HTML?',
@@ -53,6 +54,7 @@ class QuizSeeder extends Seeder
         ],
         [
             'name' => 'javascript',
+            'tags' => ['web', 'development', 'frontend', 'javascript', 'ES6'],
             'questions' => [
                 [
                     'question' => 'Which keyword is used to declare variables in JavaScript?',
@@ -94,6 +96,7 @@ class QuizSeeder extends Seeder
         ],
         [
             'name' => 'php',
+            'tags' => ['web', 'development', 'backend', 'php', 'OOP'],
             'questions' => [
                 [
                     'question' => 'What does PHP stand for?',
@@ -144,6 +147,7 @@ class QuizSeeder extends Seeder
                 'user_id' => $teacher->id,
                 'name' => $quiz['name'],
                 'active' => true,
+                'tags' => $quiz['tags'],
             ]);
 
             foreach ($quiz['questions'] as $question) {

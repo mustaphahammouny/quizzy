@@ -40,7 +40,7 @@ onBeforeMount(async () => {
                             <tbody>
                                 <tr>
                                     <td>
-                                        <i class="fa fa-fw fa-question me-1"></i>
+                                        <i class="fa fa-fw fa-heading me-1"></i>
                                         {{ quiz.name }}
                                     </td>
                                 </tr>
@@ -77,12 +77,15 @@ onBeforeMount(async () => {
                                 <tr>
                                     <td>
                                         <i class="fa fa-fw fa-tags me-1"></i>
-                                        <span class="badge bg-primary">HTML</span>
+                                        <span v-for="(tag, i) in quiz.tags" class="badge bg-primary mx-1" :key="i">
+                                            {{ tag }}
+                                        </span>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td colspan="2">
-                                        <button class="btn btn-alt-primary w-100">start</button>
+                                        <RouterLink :to="{ name: 'student.quizzes.start', params: { id: quiz.id } }"
+                                            class="btn btn-alt-primary w-100">start</RouterLink>
                                     </td>
                                 </tr>
                             </tbody>

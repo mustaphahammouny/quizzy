@@ -3,13 +3,15 @@
 namespace App\Http\Controllers\Student;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Student\QuizQuestionsResource;
 use App\Http\Resources\Student\QuizResource;
 use App\Models\Quiz;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\Auth;
 
 class QuizController extends Controller
 {
-    public function index()
+    public function index(): AnonymousResourceCollection
     {
         $quizzes = Quiz::with('user')
             ->withCount('questions')
@@ -23,7 +25,7 @@ class QuizController extends Controller
         return QuizResource::collection($quizzes);
     }
 
-    public function favorite()
+    public function favorite(): AnonymousResourceCollection
     {
         $quizzes = Quiz::with('user')
             ->withCount('questions')
@@ -40,17 +42,16 @@ class QuizController extends Controller
         return QuizResource::collection($quizzes);
     }
 
-    public function show(Quiz $quiz)
+    public function show(Quiz $quiz): QuizResource
     {
         $quiz->questions_count = $quiz->questions()->count();
         $quiz->questions_sum_time = $quiz->questions()->sum('time');
         $quiz->favorite_users_count = $quiz->favoriteUsers()->count();
-        $quiz->user = $quiz->user;
 
         return new QuizResource($quiz);
     }
 
-    public function toggleFavorite(Quiz $quiz)
+    public function toggleFavorite(Quiz $quiz): QuizResource
     {
         $user = Auth::user();
 
@@ -59,5 +60,10 @@ class QuizController extends Controller
         $quiz->favorite_users_exists = in_array($quiz->id, $result['attached']);
 
         return new QuizResource($quiz);
+    }
+
+    public function questions(Quiz $quiz): QuizQuestionsResource
+    {
+        return new QuizQuestionsResource($quiz);
     }
 }

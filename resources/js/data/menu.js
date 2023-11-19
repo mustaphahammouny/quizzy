@@ -33,5 +33,10 @@ export default {
             to: "student.quizzes.favorite",
             icon: "si si-note",
         },
+        {
+            name: "passed quizzes",
+            to: "student.quizzes.passed",
+            icon: "si si-note",
+        },
     ],
 };

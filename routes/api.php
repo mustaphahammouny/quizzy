@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Student\QuizController as StudentQuizController;
+use App\Http\Controllers\Student\PassedQuizController as StudentPasssedQuizController;
 use App\Http\Controllers\Teacher\QuizController as TeacherQuizController;
 use App\Http\Controllers\Teacher\QuestionController as TeacherQuestionController;
 use App\Http\Controllers\Teacher\AnswerController as TeacherAnswerController;
@@ -31,8 +32,17 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::middleware('role:student')->prefix('student')->group(function () {
         Route::get('quizzes', [StudentQuizController::class, 'index']);
-        Route::get('quizzes/{quiz}/favorite', [StudentQuizController::class, 'toggleFavorite']);
+
         Route::get('quizzes/favorite', [StudentQuizController::class, 'favorite']);
+
+        Route::get('quizzes/{quiz}/favorite', [StudentQuizController::class, 'toggleFavorite']);
+
+        Route::get('quizzes/{quiz}/questions', [StudentQuizController::class, 'questions']);
+
         Route::get('quizzes/{quiz}', [StudentQuizController::class, 'show']);
+
+        Route::post('passed-quizzes', [StudentPasssedQuizController::class, 'store']);
+        
+        Route::get('passed-quizzes', [StudentPasssedQuizController::class, 'index']);
     });
 });

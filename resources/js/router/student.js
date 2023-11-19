@@ -4,7 +4,9 @@ const Dashboard = () => import("@/views/student/DashboardView.vue");
 
 const IndexQuiz = () => import("@/views/student/quizzes/IndexView.vue");
 const FavoriteQuiz = () => import("@/views/student/quizzes/FavoriteView.vue");
+const PassedQuiz = () => import("@/views/student/quizzes/PassedView.vue");
 const ShowQuiz = () => import("@/views/student/quizzes/ShowView.vue");
+const StartQuiz = () => import("@/views/student/quizzes/StartView.vue");
 
 const routes = [
     {
@@ -32,9 +34,19 @@ const routes = [
                         component: FavoriteQuiz,
                     },
                     {
+                        path: "passed",
+                        name: "student.quizzes.passed",
+                        component: PassedQuiz,
+                    },
+                    {
                         path: ":id(\\d+)/show",
                         name: "student.quizzes.show",
                         component: ShowQuiz,
+                    },
+                    {
+                        path: ":id(\\d+)/start",
+                        name: "student.quizzes.start",
+                        component: StartQuiz,
                     },
                 ],
             },

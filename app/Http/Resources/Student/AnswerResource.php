@@ -2,11 +2,10 @@
 
 namespace App\Http\Resources\Student;
 
-use App\Http\Resources\UserResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class QuizResource extends JsonResource
+class AnswerResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -17,13 +16,8 @@ class QuizResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'name' => $this->name,
-            'tags' => $this->tags,
-            'teacher' => new UserResource($this->user),
-            'questions_sum_time' => $this->questions_sum_time,
-            'favorite' => $this->favorite_users_exists ?? false,
-            'questions_count' => $this->questions_count,
-            'favorites_count' => $this->favorite_users_count,
+            'question_id' => $this->question_id,
+            'answer' => $this->answer,
             'created_at' => $this->created_at->format('Y-m-d'),
             'updated_at' => $this->updated_at->format('Y-m-d'),
         ];

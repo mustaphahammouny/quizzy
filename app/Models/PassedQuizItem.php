@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class Answer extends Model
+class PassedQuizItem extends Model
 {
     use HasFactory;
 
@@ -14,10 +14,12 @@ class Answer extends Model
 
     protected $casts = [
         'correct' => 'boolean',
+        'chosen_answers' => 'array',
+        'correct_answers' => 'array',
     ];
 
-    public function question(): BelongsTo
+    public function passedQuiz(): BelongsTo
     {
-        return $this->belongsTo(Question::class);
+        return $this->belongsTo(PassedQuiz::class);
     }
 }
