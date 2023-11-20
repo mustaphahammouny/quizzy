@@ -52,7 +52,7 @@ class PassedQuizController extends Controller
                 $chosenAnswers[] = $answers->get($chosenAnswerId)->answer;
             }
 
-            $correct = empty(array_diff($chosenAnswerIds, $correctAnswers->pluck('id')->toArray()));
+            $correct = empty(array_diff($correctAnswers->pluck('id')->toArray(), $chosenAnswerIds));
 
             $items[] = [
                 'question' => $question->question,
