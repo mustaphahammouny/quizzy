@@ -1,6 +1,8 @@
 <script setup>
 import { ref, onBeforeMount } from "vue";
 
+import alert from '@/support/alert';
+
 import Quiz from '@/views/student/quizzes/components/Quiz.vue';
 import Pagination from '@/views/student/quizzes/components/Pagination.vue';
 
@@ -26,6 +28,8 @@ const getQuizzes = async () => {
 
 const success = (data) => {
     quizzes.value = quizzes.value.filter((item) => item.id != data.id);
+
+    alert.success('Quiz deleted successfully!');
 }
 
 onBeforeMount(async () => {

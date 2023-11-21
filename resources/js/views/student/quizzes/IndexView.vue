@@ -1,6 +1,8 @@
 <script setup>
 import { ref, onBeforeMount } from "vue";
 
+import alert from '@/support/alert';
+
 import Quiz from '@/views/student/quizzes/components/Quiz.vue';
 import Pagination from '@/views/student/quizzes/components/Pagination.vue';
 
@@ -27,6 +29,13 @@ const getQuizzes = async () => {
 const success = (data) => {
     const quiz = quizzes.value.find((item) => item.id == data.id);
     quiz.favorite = data.favorite;
+
+    let title = 'Quiz added successfully!';
+    if (!quiz.favorite) {
+        title = 'Quiz deleted successfully!';
+    }
+
+    alert.success(title);
 }
 
 onBeforeMount(async () => {
