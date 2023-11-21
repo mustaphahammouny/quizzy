@@ -5,6 +5,7 @@ import alert from '@/support/alert';
 
 import Quiz from '@/views/student/quizzes/components/Quiz.vue';
 import Pagination from '@/views/student/quizzes/components/Pagination.vue';
+import Empty from '@/components/Empty.vue';
 
 const quizzes = ref([]);
 const meta = ref({});
@@ -40,12 +41,17 @@ onBeforeMount(async () => {
 <template>
     <BasePageHeading title="Favorite quizzes" />
 
-    <div class="content content-boxed">
-        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 items-push py-4">
+    <div class="content content-boxed py-0">
+        <template v-if="quizzes.length">
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 items-push py-4">
 
-            <Quiz v-for="quiz in quizzes" :quiz="quiz" :key="quiz.id" :success="success" />
-        </div>
+                <Quiz v-for="quiz in quizzes" :quiz="quiz" :key="quiz.id" :success="success" />
+            </div>
 
-        <Pagination :meta="meta" :paginate="paginate" />
+            <Pagination :meta="meta" :paginate="paginate" />
+        </template>
+        <template v-else>
+            <Empty />
+        </template>
     </div>
 </template>
