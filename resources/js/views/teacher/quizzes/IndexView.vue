@@ -10,8 +10,12 @@ import {
     DatasetShow,
 } from "vue-dataset";
 
+import { useNotificationStore } from "@/stores/notification.store";
+
 import alert from '@/support/alert';
 import dataset from '@/support/dataset';
+
+const notification = useNotificationStore();
 
 const cols = reactive([
     {
@@ -42,6 +46,8 @@ const deleteQuiz = (quiz) => {
                 await http.delete(`api/teacher/quizzes/${quiz.id}`);
 
                 quizzes.value = quizzes.value.filter((item) => item.id !== quiz.id);
+
+                alert.success('Quiz deleted successfully!');
             } catch (error) {
                 console.log(error.response.message ?? error.response.data.message);
             }
@@ -50,6 +56,8 @@ const deleteQuiz = (quiz) => {
 };
 
 onBeforeMount(async () => {
+    notification.show();
+
     try {
         const response = await http.get("api/teacher/quizzes");
 

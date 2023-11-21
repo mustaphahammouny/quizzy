@@ -6,7 +6,7 @@ import App from "./App.vue";
 // import router from "./router/starter";
 import router from "./router";
 
-// Global components
+// Plugins components
 import vSelect from "vue-select";
 
 // Template components

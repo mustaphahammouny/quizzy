@@ -38,6 +38,35 @@ const confirm = (params) => {
         });
 };
 
+const show = (params) => {
+    toast.fire({
+        title: params.title,
+        icon: params.icon,
+        position: "top-end",
+        showConfirmButton: false,
+        timer: 2500,
+        toast: true,
+        timerProgressBar: true,
+    });
+};
+
+const success = (title) => {
+    show({
+        title: title,
+        icon: "success",
+    });
+};
+
+const error = (title) => {
+    show({
+        title: title,
+        icon: "error",
+    });
+};
+
 export default {
     confirm,
+    success,
+    error,
+    show,
 };

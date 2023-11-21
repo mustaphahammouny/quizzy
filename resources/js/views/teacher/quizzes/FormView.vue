@@ -5,7 +5,10 @@ import { useRouter } from "vue-router";
 import useVuelidate from "@vuelidate/core";
 import { required, minLength } from "@vuelidate/validators";
 
+import { useNotificationStore } from "@/stores/notification.store";
+
 const router = useRouter();
+const notification = useNotificationStore();
 
 const props = defineProps({
     title: {
@@ -43,11 +46,17 @@ const save = async () => {
     }
 
     try {
+        let title = 'Quiz addedd successfully!';
+
         if (props.quiz) {
             await http.put(`api/teacher/quizzes/${props.quiz.id}`, state);
+
+            title = 'Quiz updated successfully!';
         } else {
             await http.post("api/teacher/quizzes", state);
         }
+
+        notification.setMessage({ title: title, icon: 'success' });
 
         router.push({ name: `teacher.quizzes.index` });
     } catch (error) {

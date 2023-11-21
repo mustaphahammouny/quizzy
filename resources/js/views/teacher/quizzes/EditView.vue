@@ -11,6 +11,8 @@ import {
     DatasetShow,
 } from "vue-dataset";
 
+import { useNotificationStore } from "@/stores/notification.store";
+
 import alert from '@/support/alert';
 import dataset from '@/support/dataset';
 
@@ -18,6 +20,7 @@ import FormView from "@/views/teacher/quizzes/FormView.vue";
 
 const router = useRouter();
 const route = useRoute();
+const notification = useNotificationStore();
 
 const cols = reactive([
     {
@@ -55,6 +58,8 @@ const deleteQuestion = (question) => {
                 await http.delete(`api/teacher/questions/${question.id}`);
 
                 questions.value = questions.value.filter((item) => item.id !== question.id);
+
+                alert.success('question deleted successfully!');
             } catch (error) {
                 console.log(error.response.message ?? error.response.data.message);
             }
@@ -63,6 +68,8 @@ const deleteQuestion = (question) => {
 };
 
 onBeforeMount(async () => {
+    notification.show();
+
     try {
         const response = await http.get(`api/teacher/quizzes/${route.params.id}`);
 
