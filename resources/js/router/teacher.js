@@ -1,4 +1,4 @@
-import LayoutBackend from "@/layouts/variations/Backend.vue";
+import LayoutBackendBoxed from "@/layouts/variations/BackendBoxed.vue";
 
 const Dashboard = () => import("@/views/teacher/DashboardView.vue");
 
@@ -16,7 +16,7 @@ const routes = [
     {
         path: "/teacher",
         redirect: "/teacher/dashboard",
-        component: LayoutBackend,
+        component: LayoutBackendBoxed,
         meta: { auth: true, role: "teacher" },
         children: [
             {

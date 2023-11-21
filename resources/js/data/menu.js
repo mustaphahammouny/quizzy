@@ -14,7 +14,7 @@ export default {
         {
             name: "quizzes",
             to: "teacher.quizzes.index",
-            icon: "si si-note",
+            icon: "fa fa-list",
         },
     ],
     student: [
@@ -26,17 +26,17 @@ export default {
         {
             name: "quizzes",
             to: "student.quizzes.index",
-            icon: "si si-note",
+            icon: "fa fa-list",
         },
         {
             name: "favorite quizzes",
             to: "student.quizzes.favorite",
-            icon: "si si-note",
+            icon: "fa fa-heart",
         },
         {
             name: "passed quizzes",
             to: "student.quizzes.passed",
-            icon: "si si-note",
+            icon: "fa fa-check-circle",
         },
     ],
 };

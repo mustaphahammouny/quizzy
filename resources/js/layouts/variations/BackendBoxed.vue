@@ -1,24 +1,23 @@
 <script setup>
 import { ref } from "vue";
+import { useRouter } from "vue-router";
 import { useTemplateStore } from "@/stores/template.store";
+import { useAuthStore } from "@/stores/auth.store";
 
 import BaseLayout from "@/layouts/BaseLayout.vue";
 import BaseNavigation from "@/components/BaseNavigation.vue";
 
-// Grab example data
-import notifications from "@/data/notifications";
-
 // Grab menu navigation arrays
 import menu from "@/data/menu";
 
-const navigation = menu.boxed;
-
-// Template store
+const router = useRouter();
 const template = useTemplateStore();
+const auth = useAuthStore();
+
+const navigation = menu[auth.user.role];
 
 // Reactive variables
 const mobileNav = ref(false);
-const baseSearchTerm = ref("");
 
 // Set default elements for this layout
 template.setLayout({
@@ -31,6 +30,16 @@ template.setLayout({
 // Set various template options for this layout variation
 template.headerStyle({ mode: "dark" });
 template.mainContent({ mode: "boxed" });
+
+const logout = async () => {
+    try {
+        await auth.logout();
+
+        router.push({ name: 'auth.signin' });
+    } catch (error) {
+        console.log(error.message);
+    }
+};
 </script>
 
 <template>
@@ -41,85 +50,22 @@ template.mainContent({ mode: "boxed" });
             <!-- Left Section -->
             <div class="d-flex align-items-center">
                 <!-- Logo -->
-                <RouterLink :to="{ name: 'landing' }" class="fw-semibold fs-5 tracking-wider text-dual me-3">
-                    OneUI
-                    <span class="fw-normal">Vue</span>
+                <RouterLink :to="{ name: 'home' }" class="fw-semibold fs-5 tracking-wider text-dual me-3">
+                    {{ template.app.name }}
                 </RouterLink>
                 <!-- END Logo -->
-
-                <!-- Notifications Dropdown -->
-                <div class="dropdown d-inline-block ms-2">
-                    <button type="button" class="btn btn-sm btn-alt-secondary" id="page-header-notifications-dropdown"
-                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="fa fa-fw fa-bell"></i>
-                        <span v-if="notifications.length > 0" class="text-primary">•</span>
-                    </button>
-                    <div class="dropdown-menu dropdown-menu-lg p-0 border-0 fs-sm"
-                        aria-labelledby="page-header-notifications-dropdown">
-                        <div class="p-2 bg-body-light border-bottom text-center rounded-top">
-                            <h5 class="dropdown-header text-uppercase">Notifications</h5>
-                        </div>
-                        <ul class="nav-items mb-0">
-                            <li v-for="(notification, index) in notifications" :key="`notification-${index}`">
-                                <a class="text-dark d-flex py-2" :href="`${notification.href}`">
-                                    <div class="flex-shrink-0 me-2 ms-3">
-                                        <i :class="`${notification.icon}`"></i>
-                                    </div>
-                                    <div class="flex-grow-1 pe-2">
-                                        <div class="fw-semibold">{{ notification.title }}</div>
-                                        <span class="fw-medium text-muted">
-                                            {{ notification.time }}
-                                        </span>
-                                    </div>
-                                </a>
-                            </li>
-                            <li v-if="!notifications.length" class="p-2">
-                                <div class="alert alert-light d-flex align-items-center space-x-2 mb-0" role="alert">
-                                    <i class="fa fa-exclamation-triangle opacity-50"></i>
-                                    <p class="mb-0">No new ones!</p>
-                                </div>
-                            </li>
-                        </ul>
-                        <div v-if="notifications.length > 0" class="p-2 border-top text-center">
-                            <a class="d-inline-block fw-medium" href="javascript:void(0)">
-                                <i class="fa fa-fw fa-arrow-down me-1 opacity-50"></i> Load
-                                More..
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <!-- END Notifications Dropdown -->
             </div>
             <!-- END Left Section -->
 
             <!-- Right Section -->
             <div class="d-flex align-items-center">
-                <!-- Open Search Section (visible on smaller screens) -->
-                <button type="button" class="btn btn-sm btn-alt-secondary d-md-none"
-                    @click="template.headerSearch({ mode: 'on' })">
-                    <i class="fa fa-fw fa-search"></i>
-                </button>
-                <!-- END Open Search Section -->
-
-                <!-- Search Form (visible on larger screens) -->
-                <form class="d-none d-md-inline-block" @submit.prevent="onSubmitSearch">
-                    <div class="input-group input-group-sm">
-                        <input type="text" class="form-control form-control-alt" placeholder="Search.."
-                            id="page-header-search-input2" name="page-header-search-input2" v-model="baseSearchTerm" />
-                        <span class="input-group-text border-0">
-                            <i class="fa fa-fw fa-search"></i>
-                        </span>
-                    </div>
-                </form>
-                <!-- END Search Form -->
-
                 <!-- User Dropdown -->
                 <div class="dropdown d-inline-block ms-2">
                     <button type="button" class="btn btn-sm btn-alt-secondary d-flex align-items-center"
                         id="page-header-user-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <img class="rounded-circle" src="/assets/media/avatars/avatar10.jpg" alt="Header Avatar"
                             style="width: 21px" />
-                        <span class="d-none d-sm-inline-block ms-2">John</span>
+                        <span class="d-none d-sm-inline-block ms-2">{{ auth.user?.full_name ?? '' }}</span>
                         <i class="fa fa-fw fa-angle-down d-none d-sm-inline-block opacity-50 ms-1"></i>
                     </button>
                     <div class="dropdown-menu dropdown-menu-md dropdown-menu-end p-0 border-0"
@@ -127,35 +73,23 @@ template.mainContent({ mode: "boxed" });
                         <div class="p-3 text-center bg-body-light border-bottom rounded-top">
                             <img class="img-avatar img-avatar48 img-avatar-thumb" src="/assets/media/avatars/avatar10.jpg"
                                 alt="Header Avatar" />
-                            <p class="mt-2 mb-0 fw-medium">John Smith</p>
-                            <p class="mb-0 text-muted fs-sm fw-medium">Web Developer</p>
+                            <p class="mt-2 mb-0 fw-medium">{{ auth.user?.full_name ?? '' }}</p>
+                            <p class="mb-0 text-muted fs-sm fw-medium">{{ auth.user?.role ?? '' }}</p>
                         </div>
                         <div class="p-2">
-                            <a class="dropdown-item d-flex align-items-center justify-content-between"
-                                href="javascript:void(0)">
-                                <span class="fs-sm fw-medium">Inbox</span>
-                                <span class="badge rounded-pill bg-primary ms-2">3</span>
-                            </a>
-                            <RouterLink :to="{ name: 'backend-pages-generic-profile' }"
+                            <RouterLink :to="{ name: 'home' }"
                                 class="dropdown-item d-flex align-items-center justify-content-between">
                                 <span class="fs-sm fw-medium">Profile</span>
-                                <span class="badge rounded-pill bg-primary ms-2">1</span>
+                                <i class="fa fa-user ms-2"></i>
                             </RouterLink>
-                            <a class="dropdown-item d-flex align-items-center justify-content-between"
-                                href="javascript:void(0)">
-                                <span class="fs-sm fw-medium">Settings</span>
-                            </a>
                         </div>
                         <div role="separator" class="dropdown-divider m-0"></div>
                         <div class="p-2">
-                            <RouterLink :to="{ name: 'auth-lock' }"
+                            <button v-on:click="logout"
                                 class="dropdown-item d-flex align-items-center justify-content-between">
-                                <span class="fs-sm fw-medium">Lock Account</span>
-                            </RouterLink>
-                            <RouterLink :to="{ name: 'auth-signin' }"
-                                class="dropdown-item d-flex align-items-center justify-content-between">
-                                <span class="fs-sm fw-medium">Log Out</span>
-                            </RouterLink>
+                                <span class="fs-sm fw-medium">Sign Out</span>
+                                <i class="fa fa-sign-out ms-2"></i>
+                            </button>
                         </div>
                     </div>
                 </div>
