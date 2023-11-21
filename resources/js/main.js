@@ -6,6 +6,9 @@ import App from "./App.vue";
 // import router from "./router/starter";
 import router from "./router";
 
+// Global components
+import vSelect from "vue-select";
+
 // Template components
 import BaseBlock from "@/components/BaseBlock.vue";
 import BaseBackground from "@/components/BaseBackground.vue";
@@ -29,6 +32,7 @@ const app = createApp(App);
 app.component("BaseBlock", BaseBlock);
 app.component("BaseBackground", BaseBackground);
 app.component("BasePageHeading", BasePageHeading);
+app.component("VSelect", vSelect);
 
 // Register global directives
 app.directive("click-ripple", clickRipple);

@@ -18,3 +18,7 @@
 .first-capitalize::first-letter {
     text-transform: uppercase;
 }
+
+.v-select.is-invalid > .vs__dropdown-toggle {
+    border-color: var(--bs-form-invalid-border-color);
+}

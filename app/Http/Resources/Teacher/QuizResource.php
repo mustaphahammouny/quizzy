@@ -17,6 +17,7 @@ class QuizResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
+            'tags' => $this->tags,
             'active' => $this->active,
             'questions' => QuestionResource::collection($this->questions),
             'created_at' => $this->created_at->format('Y-m-d'),

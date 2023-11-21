@@ -23,6 +23,7 @@ class StoreQuizRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'max:255'],
+            'tags' => ['required', 'array'],
             'active' => ['required', 'boolean'],
         ];
     }

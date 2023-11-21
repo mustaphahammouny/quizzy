@@ -92,13 +92,10 @@ const save = async () => {
                         {{ v$.question.$errors[0].$message }}
                     </div>
                 </div>
-                <div class="form-floating mb-4">
-                    <select class="form-select" id="type" name="type" aria-label="type"
-                        :class="{ 'is-invalid': v$.type.$errors.length }" v-model="state.type">
-                        <option value="1">Radio</option>
-                        <option value="2">Checkbox</option>
-                    </select>
-                    <label class="first-capitalize" for="type">type</label>
+                <div class="mb-4">
+                    <VSelect placeholder="Type" :options="[{ label: 'Radio', value: 1 }, { label: 'Checkbox', value: 2 }]"
+                        :reduce="type => type.value" :class="{ 'is-invalid': v$.type.$errors.length }" v-model="state.type">
+                    </VSelect>
                     <div v-if="v$.type.$errors.length" class="invalid-feedback animated fadeIn">
                         {{ v$.type.$errors[0].$message }}
                     </div>

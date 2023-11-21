@@ -20,6 +20,7 @@ const props = defineProps({
 
 const state = reactive({
     name: props.quiz?.name ?? null,
+    tags: props.quiz?.tags ?? [],
     active: props.quiz?.active ?? false,
 });
 
@@ -75,6 +76,9 @@ const save = async () => {
                     <div v-if="v$.name.$errors.length" class="invalid-feedback animated fadeIn">
                         {{ v$.name.$errors[0].$message }}
                     </div>
+                </div>
+                <div class="mb-4">
+                    <VSelect placeholder="Tags" taggable multiple v-model="state.tags"></VSelect>
                 </div>
                 <div class="mb-4">
                     <div class="form-check form-switch">

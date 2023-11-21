@@ -20,7 +20,7 @@ const state = reactive({
     email: null,
     password: null,
     password_confirmation: null,
-    role: 'student',
+    role: null,
     terms: null,
 });
 
@@ -49,7 +49,6 @@ const rules = computed(() => {
         },
         role: {
             required,
-
         },
         terms: {
             sameAs: sameAs(true),
@@ -68,6 +67,9 @@ const register = async () => {
         // notify user form is invalid
         return;
     }
+
+    console.log(state.role);
+    return;
 
     const response = await http.post('register', state);
 
@@ -119,13 +121,9 @@ const register = async () => {
                             {{ v$.last_name.$errors[0].$message }}
                         </div>
                     </div>
-                    <div class="form-floating mb-4">
-                        <select class="form-select" id="role" name="role" aria-label="role"
-                            :class="{ 'is-invalid': v$.role.$errors.length }" v-model="state.role">
-                            <option value="student">Student</option>
-                            <option value="teacher">Teacher</option>
-                        </select>
-                        <label class="first-capitalize" for="role">academic status</label>
+                    <div class="mb-4">
+                        <VSelect placeholder="Academic status" :options="['student', 'teacher']"
+                            :class="{ 'is-invalid': v$.role.$errors.length }" v-model="state.role"></VSelect>
                         <div v-if="v$.role.$errors.length" class="invalid-feedback animated fadeIn">
                             {{ v$.role.$errors[0].$message }}
                         </div>
