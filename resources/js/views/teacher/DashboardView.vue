@@ -8,6 +8,12 @@ const menu = [
         icon: "fa fa-list",
         key: "quizzes_count",
     },
+    {
+        name: "students",
+        to: "teacher.students.index",
+        icon: "fa fa-users",
+        key: "students_count",
+    },
 ];
 
 const counts = ref({});

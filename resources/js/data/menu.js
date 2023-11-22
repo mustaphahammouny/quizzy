@@ -16,6 +16,11 @@ export default {
             to: "teacher.quizzes.index",
             icon: "fa fa-list",
         },
+        {
+            name: "students",
+            to: "teacher.students.index",
+            icon: "fa fa-users",
+        },
     ],
     student: [
         {

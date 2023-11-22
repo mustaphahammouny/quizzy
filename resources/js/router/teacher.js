@@ -12,6 +12,8 @@ const EditQuestion = () => import("@/views/teacher/questions/EditView.vue");
 const CreateAnswer = () => import("@/views/teacher/answers/CreateView.vue");
 const EditAnswer = () => import("@/views/teacher/answers/EditView.vue");
 
+const IndexStudent = () => import("@/views/teacher/students/IndexView.vue");
+
 const routes = [
     {
         path: "/teacher",
@@ -73,6 +75,11 @@ const routes = [
                         component: EditAnswer,
                     },
                 ],
+            },
+            {
+                path: "students",
+                name: "teacher.students.index",
+                component: IndexStudent,
             },
         ],
     },

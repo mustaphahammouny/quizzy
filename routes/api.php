@@ -8,6 +8,7 @@ use App\Http\Controllers\Teacher\DashboardController as TeacherDashboardControll
 use App\Http\Controllers\Teacher\QuizController as TeacherQuizController;
 use App\Http\Controllers\Teacher\QuestionController as TeacherQuestionController;
 use App\Http\Controllers\Teacher\AnswerController as TeacherAnswerController;
+use App\Http\Controllers\Teacher\StudentController as TeacherStudentController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -32,6 +33,8 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::apiResource('questions', TeacherQuestionController::class)->except(['index']);
 
         Route::apiResource('answers', TeacherAnswerController::class)->except(['index']);
+
+        Route::get('students', [TeacherStudentController::class, 'index']);
     });
 
     Route::middleware('role:student')->prefix('student')->group(function () {
@@ -48,7 +51,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('quizzes/{quiz}', [StudentQuizController::class, 'show']);
 
         Route::post('passed-quizzes', [StudentPasssedQuizController::class, 'store']);
-        
+
         Route::get('passed-quizzes', [StudentPasssedQuizController::class, 'index']);
     });
 });

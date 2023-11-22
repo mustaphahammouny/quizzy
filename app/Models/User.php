@@ -54,4 +54,9 @@ class User extends Authenticatable
         return $this->belongsToMany(Quiz::class, 'favorite_quizzes')
             ->using(FavoriteQuiz::class);
     }
+
+    public function passedQuizzes(): HasMany
+    {
+        return $this->hasMany(PassedQuiz::class);
+    }
 }
