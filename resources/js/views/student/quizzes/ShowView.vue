@@ -77,7 +77,7 @@ onBeforeMount(async () => {
                                 <tr>
                                     <td>
                                         <i class="fa fa-fw fa-tags me-1"></i>
-                                        <span v-for="(tag, i) in quiz.tags" class="badge bg-primary mx-1" :key="i">
+                                        <span v-for="(tag, index) in quiz.tags" class="badge bg-primary mx-1" :key="`tag-${index}`">
                                             {{ tag }}
                                         </span>
                                     </td>
