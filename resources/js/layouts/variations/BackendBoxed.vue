@@ -59,7 +59,7 @@ const logout = async () => {
 
             <!-- Right Section -->
             <div class="d-flex align-items-center">
-                <ul class="nav-main nav-main-dark nav-main-horizontal nav-main-hover">
+                <ul class="nav nav-main-dark nav-main-hover">
                     <li class="nav-main-item">
                         <RouterLink :to="{ name: 'home' }" class="nav-main-link">
                             <i class="nav-main-link-icon fa fa-user"></i>
