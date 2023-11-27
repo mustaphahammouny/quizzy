@@ -59,50 +59,16 @@ const logout = async () => {
 
             <!-- Right Section -->
             <div class="d-flex align-items-center">
-                <div class="dropdown d-inline-block ms-2">
-                    <button type="button" class="btn btn-sm btn-alt-secondary d-flex align-items-center"
-                        id="header-user-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <img class="rounded-circle" src="/assets/media/avatars/avatar10.jpg" alt="Header Avatar"
-                            style="width: 21px" />
-                        <span class="d-none d-sm-inline-block ms-2">John</span>
-                        <i class="fa fa-fw fa-angle-down d-none d-sm-inline-block opacity-50 ms-1"></i>
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        Dropdown button
                     </button>
-                    <div class="dropdown-menu dropdown-menu-md dropdown-menu-end p-0 border-0"
-                        aria-labelledby="header-user-dropdown">
-                        <div class="p-3 text-center bg-body-light border-bottom rounded-top">
-                            <img class="img-avatar img-avatar48 img-avatar-thumb" src="/assets/media/avatars/avatar10.jpg"
-                                alt="Header Avatar" />
-                            <p class="mt-2 mb-0 fw-medium">John Smith</p>
-                            <p class="mb-0 text-muted fs-sm fw-medium">Web Developer</p>
-                        </div>
-                        <div class="p-2">
-                            <a class="dropdown-item d-flex align-items-center justify-content-between"
-                                href="javascript:void(0)">
-                                <span class="fs-sm fw-medium">Inbox</span>
-                                <span class="badge rounded-pill bg-primary ms-2">3</span>
-                            </a>
-                            <RouterLink :to="{ name: 'home' }"
-                                class="dropdown-item d-flex align-items-center justify-content-between">
-                                <span class="fs-sm fw-medium">Profile</span>
-                                <span class="badge rounded-pill bg-primary ms-2">1</span>
-                            </RouterLink>
-                            <a class="dropdown-item d-flex align-items-center justify-content-between"
-                                href="javascript:void(0)">
-                                <span class="fs-sm fw-medium">Settings</span>
-                            </a>
-                        </div>
-                        <div role="separator" class="dropdown-divider m-0"></div>
-                        <div class="p-2">
-                            <RouterLink :to="{ name: 'home' }"
-                                class="dropdown-item d-flex align-items-center justify-content-between">
-                                <span class="fs-sm fw-medium">Lock Account</span>
-                            </RouterLink>
-                            <RouterLink :to="{ name: 'home' }"
-                                class="dropdown-item d-flex align-items-center justify-content-between">
-                                <span class="fs-sm fw-medium">Log Out</span>
-                            </RouterLink>
-                        </div>
-                    </div>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#">Action</a></li>
+                        <li><a class="dropdown-item" href="#">Another action</a></li>
+                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                    </ul>
                 </div>
 
                 <!-- User Dropdown -->
