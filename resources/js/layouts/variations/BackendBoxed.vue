@@ -59,41 +59,21 @@ const logout = async () => {
 
             <!-- Right Section -->
             <div class="d-flex align-items-center">
-                <!-- User Dropdown -->
-                <div class="dropdown d-inline-block ms-2">
-                    <button type="button" class="btn btn-sm btn-alt-secondary d-flex align-items-center"
-                        id="page-header-user-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <img class="rounded-circle" src="/assets/media/avatars/avatar10.jpg" alt="Header Avatar"
-                            style="width: 21px" />
-                        <span class="d-none d-sm-inline-block ms-2">{{ auth.user?.full_name ?? '' }}</span>
-                        <i class="fa fa-fw fa-angle-down d-none d-sm-inline-block opacity-50 ms-1"></i>
-                    </button>
-                    <div class="dropdown-menu dropdown-menu-md dropdown-menu-end p-0 border-0"
-                        aria-labelledby="page-header-user-dropdown">
-                        <div class="p-3 text-center bg-body-light border-bottom rounded-top">
-                            <img class="img-avatar img-avatar48 img-avatar-thumb" src="/assets/media/avatars/avatar10.jpg"
-                                alt="Header Avatar" />
-                            <p class="mt-2 mb-0 fw-medium">{{ auth.user?.full_name ?? '' }}</p>
-                            <p class="mb-0 text-muted fs-sm fw-medium">{{ auth.user?.role ?? '' }}</p>
-                        </div>
-                        <div class="p-2">
-                            <RouterLink :to="{ name: 'home' }"
-                                class="dropdown-item d-flex align-items-center justify-content-between">
-                                <span class="fs-sm fw-medium">Profile</span>
-                                <i class="fa fa-user ms-2"></i>
-                            </RouterLink>
-                        </div>
-                        <div role="separator" class="dropdown-divider m-0"></div>
-                        <div class="p-2">
-                            <button v-on:click="logout"
-                                class="dropdown-item d-flex align-items-center justify-content-between">
-                                <span class="fs-sm fw-medium">Sign Out</span>
-                                <i class="fa fa-sign-out ms-2"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <!-- END User Dropdown -->
+                <ul class="nav-main nav-main-dark nav-main-horizontal nav-main-hover">
+                    <li class="nav-main-item">
+                        <RouterLink :to="{ name: 'home' }" class="nav-main-link">
+                            <i class="nav-main-link-icon fa fa-user"></i>
+                            <span class="nav-main-link-name">Profile</span>
+                        </RouterLink>
+                    </li>
+                    <li class="nav-main-item">
+                        <a role="button" href="javascript:void(0)" v-on:click="logout" class="nav-main-link">
+                            <i class="nav-main-link-icon fa fa-sign-out"></i>
+                            <span class="nav-main-link-name">Sign Out</span>
+                        </a>
+                    </li>
+                </ul>
+
             </div>
             <!-- END Right Section -->
         </template>
