@@ -1,4 +1,7 @@
 import axios from "axios";
+import router from "../router";
+
+import { useAuthStore } from "@/stores/auth.store";
 
 const instance = axios.create({
     // baseURL: `${import.meta.env.SPA_URL}`,
@@ -9,6 +12,8 @@ const instance = axios.create({
 });
 
 const request = async ({ method, url, data, headers }) => {
+    const auth = useAuthStore();
+
     const config = {
         method: method,
         url: url,
@@ -23,6 +28,12 @@ const request = async ({ method, url, data, headers }) => {
     try {
         return await instance.request(config);
     } catch (error) {
+        if (error.response.status === 401) {
+            await auth.logout();
+
+            router.push({ name: "auth.signin" });
+        }
+
         throw error;
     }
 };

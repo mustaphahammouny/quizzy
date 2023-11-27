@@ -53,7 +53,7 @@ onMounted(() => {
 
     <div class="content">
         <BaseBlock content-full>
-            <Dataset v-slot="{ ds }" :ds-data="students" :ds-sortby="sortBy" :ds-search-in="['full_name']">
+            <Dataset v-slot="{ ds }" :ds-data="students" :ds-sortby="sortBy" :ds-search-in="['full_name', 'email']">
                 <div class="row" :data-page-count="ds.dsPagecount">
                     <div id="datasetLength" class="col-md-8 py-2">
                         <DatasetShow />
