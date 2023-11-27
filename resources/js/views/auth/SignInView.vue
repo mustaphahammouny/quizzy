@@ -53,7 +53,7 @@ const login = async () => {
 
         router.push({ name: `${auth.user.role}.dashboard` });
     } catch (error) {
-        error.value = e.message;
+        error.value = error.message;
     }
 };
 </script>
