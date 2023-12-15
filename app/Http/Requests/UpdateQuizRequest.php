@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\LevelList;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateQuizRequest extends FormRequest
 {
@@ -23,6 +25,8 @@ class UpdateQuizRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'max:255'],
+            'level' => ['required', Rule::in(LevelList::cases())],
+            'tags' => ['required', 'array'],
             'active' => ['required', 'boolean'],
         ];
     }

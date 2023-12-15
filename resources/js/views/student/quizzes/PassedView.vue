@@ -36,7 +36,7 @@ onBeforeMount(async () => {
         <template v-if="passedQuizzes.length">
             <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 items-push py-4">
                 <div v-for="passedQuiz in passedQuizzes" :key="passedQuiz.id" class="col">
-                    <BaseBlock>
+                    <BaseBlock content-full :ribbon="passedQuiz.quiz.level.name" :ribbonVariant="passedQuiz.quiz.level.color">
                         <h4 class="h5 text-center mb-2">
                             {{ passedQuiz.quiz.name }}
                         </h4>

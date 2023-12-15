@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\LevelList;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -17,6 +18,7 @@ class Quiz extends Model
     protected $casts = [
         'active' => 'boolean',
         'tags' => 'array',
+        'level' => LevelList::class,
     ];
 
     public function user(): BelongsTo

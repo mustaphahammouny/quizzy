@@ -27,7 +27,7 @@ const favoriteQuiz = async () => {
 
 <template>
     <div class="col">
-        <BaseBlock>
+        <BaseBlock content-full :ribbon="quiz.level.name" :ribbonVariant="quiz.level.color">
             <h4 class="h5 text-center mb-2">
                 {{ quiz.name }}
             </h4>

@@ -1,5 +1,5 @@
 <script setup>
-import { reactive, computed } from "vue";
+import { reactive, computed, onBeforeMount, ref } from "vue";
 import { useRouter } from "vue-router";
 
 import useVuelidate from "@vuelidate/core";
@@ -24,6 +24,8 @@ const props = defineProps({
         default: null,
     },
 });
+
+const questionTypes = ref([]);
 
 const state = reactive({
     quiz_id: props.quizId,
@@ -76,6 +78,16 @@ const save = async () => {
         console.log(error.response.data.message);
     }
 };
+
+onBeforeMount(async () => {
+    try {
+        const response = await http.get("api/question-types/select");
+
+        questionTypes.value = response.data.data;
+    } catch (error) {
+        console.log(error.response.data.message);
+    }
+});
 </script>
 
 <template>
@@ -102,7 +114,7 @@ const save = async () => {
                     </div>
                 </div>
                 <div class="mb-4">
-                    <VSelect placeholder="Type" :options="[{ label: 'Radio', value: 1 }, { label: 'Checkbox', value: 2 }]"
+                    <VSelect placeholder="Type" :options="questionTypes"
                         :reduce="type => type.value" :class="{ 'is-invalid': v$.type.$errors.length }" v-model="state.type">
                     </VSelect>
                     <div v-if="v$.type.$errors.length" class="invalid-feedback animated fadeIn">

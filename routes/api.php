@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\SelectController;
 use App\Http\Controllers\Student\DashboardController as StudentDashboardController;
 use App\Http\Controllers\Student\QuizController as StudentQuizController;
 use App\Http\Controllers\Student\PassedQuizController as StudentPasssedQuizController;
@@ -24,6 +25,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('user', [AuthController::class, 'user']);
+
+    Route::get('levels/select', [SelectController::class, 'levels']);
+    Route::get('question-types/select', [SelectController::class, 'questionTypes']);
 
     Route::middleware('role:teacher')->prefix('teacher')->group(function () {
         Route::get('counts', [TeacherDashboardController::class, 'counts']);

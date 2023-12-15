@@ -19,6 +19,7 @@ return new class extends Migration
                 ->cascadeOnDelete();
             $table->string('name');
             $table->boolean('active');
+            $table->boolean('level');
             $table->json('tags');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();

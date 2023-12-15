@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Enums\LevelList;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**

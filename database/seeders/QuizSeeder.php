@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Enums\LevelList;
 use App\Enums\QuestionTypeList;
 use App\Models\Quiz;
 use App\Models\User;
@@ -141,12 +142,14 @@ class QuizSeeder extends Seeder
     public function run(): void
     {
         $teacher = User::role('teacher')->first();
+        $levels = LevelList::cases();
 
         foreach ($this->quizzes as $quiz) {
             $quizModel = Quiz::create([
                 'user_id' => $teacher->id,
                 'name' => $quiz['name'],
                 'active' => true,
+                'level' => $levels[array_rand($levels)]->value,
                 'tags' => $quiz['tags'],
             ]);
 

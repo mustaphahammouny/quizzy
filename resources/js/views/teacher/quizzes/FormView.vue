@@ -1,9 +1,9 @@
 <script setup>
-import { reactive, computed } from "vue";
+import { reactive, computed, ref, onBeforeMount } from "vue";
 import { useRouter } from "vue-router";
 
 import useVuelidate from "@vuelidate/core";
-import { required, minLength } from "@vuelidate/validators";
+import { required, minLength, numeric } from "@vuelidate/validators";
 
 import { useNotificationStore } from "@/stores/notification.store";
 
@@ -21,9 +21,12 @@ const props = defineProps({
     },
 });
 
+const levels = ref([]);
+
 const state = reactive({
     name: props.quiz?.name ?? null,
     tags: props.quiz?.tags ?? [],
+    level: props.quiz?.level.value ?? null,
     active: props.quiz?.active ?? false,
 });
 
@@ -32,6 +35,10 @@ const rules = computed(() => {
         name: {
             required,
             minLength: minLength(3),
+        },
+        level: {
+            required,
+            numeric,
         },
     };
 });
@@ -63,6 +70,16 @@ const save = async () => {
         console.log(error.response.data.message);
     }
 };
+
+onBeforeMount(async () => {
+    try {
+        const response = await http.get("api/levels/select");
+
+        levels.value = response.data.data;
+    } catch (error) {
+        console.log(error.response.data.message);
+    }
+});
 </script>
 
 <template>
@@ -84,6 +101,14 @@ const save = async () => {
                     <label class="first-capitalize" for="name">name</label>
                     <div v-if="v$.name.$errors.length" class="invalid-feedback animated fadeIn">
                         {{ v$.name.$errors[0].$message }}
+                    </div>
+                </div>
+                <div class="mb-4">
+                    <VSelect placeholder="Level" :options="levels"
+                        :reduce="level => level.value" :class="{ 'is-invalid': v$.level.$errors.length }" v-model="state.level">
+                    </VSelect>
+                    <div v-if="v$.level.$errors.length" class="invalid-feedback animated fadeIn">
+                        {{ v$.level.$errors[0].$message }}
                     </div>
                 </div>
                 <div class="mb-4">

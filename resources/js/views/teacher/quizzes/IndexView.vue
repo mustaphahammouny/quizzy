@@ -22,13 +22,13 @@ const cols = reactive([
         name: "name",
         field: "name",
         sort: "",
-        with: "50%",
+        with: "30%",
     },
     {
         name: "created at",
         field: "created_at",
         sort: "",
-        with: "50%",
+        with: "30%",
     },
 ]);
 
@@ -105,6 +105,7 @@ onMounted(() => {
                                             <span class="float-start">{{ th.name }}</span>
                                             <i class="gg-select float-end"></i>
                                         </th>
+                                        <th class="text-center">Level</th>
                                         <th class="text-center">Status</th>
                                         <th class="text-center">Action</th>
                                     </tr>
@@ -114,6 +115,9 @@ onMounted(() => {
                                         <tr>
                                             <td>{{ row.name }}</td>
                                             <td>{{ row.created_at }}</td>
+                                            <td class="text-center">
+                                                <span :class="`badge text-bg-${row.level.color}`">{{ row.level.name }}</span>
+                                            </td>
                                             <td class="text-center">
                                                 <span class="badge"
                                                     :class="{ 'text-bg-success': row.active, 'text-bg-danger': !row.active }">

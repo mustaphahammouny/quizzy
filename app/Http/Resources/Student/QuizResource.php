@@ -18,6 +18,7 @@ class QuizResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
+            'level' => $this->level->toArray(),
             'tags' => $this->tags,
             'teacher' => new UserResource($this->user),
             'questions_sum_time' => $this->questions_sum_time,
