@@ -1,5 +1,5 @@
 <script setup>
-import { reactive, computed, ref } from "vue";
+import { reactive, computed, ref, watch } from "vue";
 import { useRouter } from "vue-router";
 
 import LayoutAuth from "@/layouts/variations/Auth.vue";
@@ -21,6 +21,11 @@ const state = reactive({
 });
 
 const error = ref('');
+const profile = ref(null);
+const profiles = ref([
+    { label: 'Teacher', value: 'teacher', email: 'teacher@quizzy.com', password: 'password' },
+    { label: 'Student', value: 'student', email: 'student@quizzy.com', password: 'password' },
+]);
 
 // Validation rules
 const rules = computed(() => {
@@ -34,6 +39,11 @@ const rules = computed(() => {
             minLength: minLength(5),
         },
     };
+});
+
+watch(profile, (newProfile, oldProfile) => {
+    state.email = newProfile?.email ?? null;
+    state.password = newProfile?.password ?? null;
 });
 
 // Use vuelidate
@@ -81,6 +91,11 @@ const login = async () => {
             <div class="col-sm-8 col-xl-4">
                 <Alert v-if="error" variant="danger" icon="fa-times-circle" :message="error" />
                 <form @submit.prevent="login">
+                    <div class="mb-4">
+                        <VSelect placeholder="Connect as" :options="profiles" v-model="profile"
+                            @change="(val) => { console.log(val) }">
+                        </VSelect>
+                    </div>
                     <div class="form-floating mb-4">
                         <input type="email" class="form-control" id="email" name="email" placeholder="email"
                             :class="{ 'is-invalid': v$.email.$errors.length }" v-model="state.email"
