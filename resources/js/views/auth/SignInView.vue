@@ -92,7 +92,7 @@ const login = async () => {
                 <Alert v-if="error" variant="danger" icon="fa-times-circle" :message="error" />
                 <form @submit.prevent="login">
                     <div class="mb-4">
-                        <VSelect placeholder="Connect as" :options="profiles" v-model="profile"
+                        <VSelect placeholder="Sign in as" :options="profiles" v-model="profile"
                             @change="(val) => { console.log(val) }">
                         </VSelect>
                     </div>

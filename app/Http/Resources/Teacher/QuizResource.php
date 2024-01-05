@@ -18,9 +18,10 @@ class QuizResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'level' => $this->level->toArray(),
+            'image' => $this->getFirstMediaUrl(),
             'tags' => $this->tags,
             'active' => $this->active,
-            'questions' => QuestionResource::collection($this->questions),
+            'questions' => QuestionResource::collection($this->whenLoaded('questions')),
             'created_at' => $this->created_at->format('Y-m-d'),
             'updated_at' => $this->updated_at->format('Y-m-d'),
         ];

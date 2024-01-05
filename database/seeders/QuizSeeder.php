@@ -13,6 +13,7 @@ class QuizSeeder extends Seeder
     private $quizzes = [
         [
             'name' => 'html/css',
+            'image' => 'html-css.png',
             'tags' => ['web', 'development', 'frontend', 'html', 'css'],
             'questions' => [
                 [
@@ -55,6 +56,7 @@ class QuizSeeder extends Seeder
         ],
         [
             'name' => 'javascript',
+            'image' => 'javascript.png',
             'tags' => ['web', 'development', 'frontend', 'javascript', 'ES6'],
             'questions' => [
                 [
@@ -97,6 +99,7 @@ class QuizSeeder extends Seeder
         ],
         [
             'name' => 'php',
+            'image' => 'php.png',
             'tags' => ['web', 'development', 'backend', 'php', 'OOP'],
             'questions' => [
                 [
@@ -152,6 +155,10 @@ class QuizSeeder extends Seeder
                 'level' => $levels[array_rand($levels)]->value,
                 'tags' => $quiz['tags'],
             ]);
+
+            $quizModel->addMedia(resource_path("images/quizzes/{$quiz['image']}"))
+                ->preservingOriginal()
+                ->toMediaCollection();
 
             foreach ($quiz['questions'] as $question) {
                 $correctAnswersCount = collect($question['answers'])->filter(fn ($answer) => $answer['correct']);

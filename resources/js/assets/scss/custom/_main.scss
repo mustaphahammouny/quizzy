@@ -22,3 +22,12 @@
 .v-select.is-invalid > .vs__dropdown-toggle {
     border-color: var(--bs-form-invalid-border-color);
 }
+
+.filepond--root {
+    margin-bottom: 0;
+}
+
+.img-height {
+    height: 150px;
+    object-fit: cover;
+}

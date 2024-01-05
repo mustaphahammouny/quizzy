@@ -6,9 +6,6 @@ import { useAuthStore } from "@/stores/auth.store";
 const instance = axios.create({
     // baseURL: `${import.meta.env.SPA_URL}`,
     withCredentials: true,
-    headers: {
-        "Content-Type": "application/json",
-    },
 });
 
 const request = async ({ method, url, data, headers }) => {
@@ -17,6 +14,10 @@ const request = async ({ method, url, data, headers }) => {
     const config = {
         method: method,
         url: url,
+        headers: {
+            ...headers,
+            "Content-Type": headers["Content-Type"] ?? "application/json",
+        },
     };
 
     if (method === "get") {

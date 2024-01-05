@@ -20,7 +20,7 @@ class QuestionResource extends JsonResource
             'question' => $this->question,
             'type' => $this->type->toArray(),
             'time' => $this->time,
-            'answers' => AnswerResource::collection($this->answers),
+            'answers' => AnswerResource::collection($this->whenLoaded('answers')),
             'created_at' => $this->created_at->format('Y-m-d'),
             'updated_at' => $this->updated_at->format('Y-m-d'),
         ];

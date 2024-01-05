@@ -26,8 +26,21 @@ class StoreQuizRequest extends FormRequest
         return [
             'name' => ['required', 'string', 'max:255'],
             'level' => ['required', Rule::in(LevelList::cases())],
-            'tags' => ['required', 'array'],
+            'image' => ['required', 'image'],
+            'tags' => ['array'],
             'active' => ['required', 'boolean'],
         ];
+    }
+
+    /**
+     * Prepare the data for validation.
+     *
+     * @return void
+     */
+    protected function prepareForValidation()
+    {
+        $this->merge([
+            'active' => (bool)$this->active,
+        ]);
     }
 }

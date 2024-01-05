@@ -43,7 +43,7 @@ onBeforeMount(async () => {
 
     <div class="content content-boxed py-0">
         <template v-if="quizzes.length">
-            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 items-push py-4">
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 items-push py-4">
 
                 <Quiz v-for="quiz in quizzes" :quiz="quiz" :key="quiz.id" :success="success" />
             </div>

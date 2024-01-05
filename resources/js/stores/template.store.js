@@ -30,7 +30,7 @@ export const useTemplateStore = defineStore({
         settings: {
             colorTheme: "", // 'amethyst', 'city', 'flat', 'modern', 'smooth'
             darkMode: false,
-            darkModeSystem: true,
+            darkModeSystem: false,
             sidebarLeft: true,
             sidebarMini: false,
             sidebarDark: true,

@@ -15,6 +15,7 @@ class QuizController extends Controller
     {
         $quizzes = Quiz::with('user')
             ->withCount('questions')
+            ->withCount('favoriteUsers')
             ->withSum('questions', 'time')
             ->withExists(['favoriteUsers' => function ($query) {
                 $query->where('user_id', Auth::id());
@@ -29,6 +30,7 @@ class QuizController extends Controller
     {
         $quizzes = Quiz::with('user')
             ->withCount('questions')
+            ->withCount('favoriteUsers')
             ->withSum('questions', 'time')
             ->withExists(['favoriteUsers' => function ($query) {
                 $query->where('user_id', Auth::id());
@@ -64,6 +66,8 @@ class QuizController extends Controller
 
     public function questions(Quiz $quiz): QuizQuestionsResource
     {
+        $quiz->load('questions.answers');
+
         return new QuizQuestionsResource($quiz);
     }
 }
