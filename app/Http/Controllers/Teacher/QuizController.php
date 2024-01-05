@@ -64,6 +64,7 @@ class QuizController extends Controller
         try {
             DB::beginTransaction();
 
+            dd($data);
             $quiz->update($data);
 
             $image = $request->file('image');

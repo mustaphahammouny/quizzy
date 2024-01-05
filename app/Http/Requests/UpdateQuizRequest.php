@@ -40,7 +40,7 @@ class UpdateQuizRequest extends FormRequest
     protected function prepareForValidation()
     {
         $this->merge([
-            'active' => (bool)$this->active,
+            'active' => filter_var($this->active, FILTER_VALIDATE_BOOLEAN),
         ]);
     }
 }
