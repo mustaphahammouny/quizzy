@@ -23,6 +23,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('roles/select', [SelectController::class, 'roles']);
+
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('user', [AuthController::class, 'user']);
 

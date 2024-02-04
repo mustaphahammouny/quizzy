@@ -1,17 +1,21 @@
 <script setup>
-import { reactive, computed } from "vue";
+import { reactive, computed, ref, onBeforeMount } from "vue";
 import { useRouter } from "vue-router";
-
-import LayoutAuth from "@/layouts/variations/Auth.vue";
 
 // Vuelidate, for more info and examples you can check out https://github.com/vuelidate/vuelidate
 import useVuelidate from "@vuelidate/core";
 import { required, minLength, email, sameAs } from "@vuelidate/validators";
 
-import http from "@/support/http";
+import LayoutAuth from "@/layouts/variations/Auth.vue";
+import Alert from "@/components/Alert.vue";
 
-// Router
+import { useAuthStore } from "@/stores/auth.store";
+
 const router = useRouter();
+const auth = useAuthStore();
+
+const roles = ref([]);
+const errorMessage = ref("");
 
 // Input state variables
 const state = reactive({
@@ -61,24 +65,32 @@ const v$ = useVuelidate(rules, state);
 
 // On form submission
 const register = async () => {
+    errorMessage.value = "";
+
     const result = await v$.value.$validate();
 
     if (!result) {
-        // notify user form is invalid
         return;
     }
 
-    console.log(state.role);
-    return;
+    try {
+        await auth.register(state);
 
-    const response = await http.post("register", state);
-
-    console.log(response);
-    return;
-
-    // Go to dashboard
-    router.push({ name: "backend-pages-auth" });
+        router.push({ name: `${auth.user.role}.dashboard` });
+    } catch (error) {
+        errorMessage.value = error.message;
+    }
 };
+
+onBeforeMount(async () => {
+    try {
+        const response = await http.get("api/roles/select");
+
+        roles.value = response.data.data;
+    } catch (error) {
+        console.log(error.response.data.message);
+    }
+});
 </script>
 
 <template>
@@ -105,6 +117,13 @@ const register = async () => {
         <div class="row g-0 justify-content-center">
             <div class="col-sm-8 col-xl-4">
                 <form @submit.prevent="register">
+                    <Alert
+                        v-if="errorMessage"
+                        variant="danger"
+                        icon="fa-times-circle"
+                        :message="errorMessage"
+                    />
+
                     <div class="form-floating mb-4">
                         <input
                             type="text"
@@ -154,7 +173,8 @@ const register = async () => {
                     <div class="mb-4">
                         <VSelect
                             placeholder="Academic status"
-                            :options="['student', 'teacher']"
+                            :options="roles"
+                            :reduce="(role) => role.value"
                             :class="{ 'is-invalid': v$.role.$errors.length }"
                             v-model="state.role"
                         ></VSelect>

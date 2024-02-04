@@ -1,14 +1,18 @@
 <script setup>
-import { computed, reactive } from "vue";
+import { computed, reactive, ref } from "vue";
 
 import useVuelidate from "@vuelidate/core";
 import { required, minLength, email } from "@vuelidate/validators";
 
 import { useAuthStore } from "@/stores/auth.store";
 
+import Alert from "@/components/Alert.vue";
+
 import alert from "@/support/alert";
 
 const auth = useAuthStore();
+
+const errorMessage = ref("");
 
 const state = reactive({
     first_name: auth.user.first_name,
@@ -36,6 +40,8 @@ const rules = computed(() => {
 const v$ = useVuelidate(rules, state);
 
 const save = async () => {
+    errorMessage.value = "";
+
     const result = await v$.value.$validate();
 
     if (!result) {
@@ -49,7 +55,7 @@ const save = async () => {
 
         auth.attempt();
     } catch (error) {
-        console.log(error.response.data.message);
+        errorMessage.value = error.response.data.message;
     }
 };
 </script>
@@ -60,6 +66,13 @@ const save = async () => {
 
         <div class="row items-push">
             <div class="col-md-8 col-lg-7 mx-auto">
+                <Alert
+                    v-if="errorMessage"
+                    variant="danger"
+                    icon="fa-times-circle"
+                    :message="errorMessage"
+                />
+
                 <form @submit.prevent="save" class="w-100">
                     <div class="form-floating mb-4">
                         <input

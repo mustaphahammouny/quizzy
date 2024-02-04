@@ -27,6 +27,17 @@ export const useAuthStore = defineStore({
                 throw new Error(error.response.data.message ?? message);
             }
         },
+        async register(data) {
+            try {
+                await http.post("register", data);
+
+                await this.attempt();
+            } catch (error) {
+                let message = "Something went wrong!";
+
+                throw new Error(error.response.data.message ?? message);
+            }
+        },
         async login(credentials) {
             try {
                 await http.post("login", credentials);

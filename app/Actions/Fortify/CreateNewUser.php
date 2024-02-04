@@ -33,12 +33,10 @@ class CreateNewUser implements CreatesNewUsers
             'password' => $this->passwordRules(),
             'role' => [
                 'required',
-                Rule::exists(Role::class, 'name'),
+                Rule::exists(Role::class, 'id'),
             ],
             'terms' => ['accepted'],
         ])->validate();
-
-        dd($input);
 
         $user = User::create([
             'first_name' => $input['first_name'],

@@ -2,12 +2,12 @@
 import { reactive, computed, ref, watch } from "vue";
 import { useRouter } from "vue-router";
 
-import LayoutAuth from "@/layouts/variations/Auth.vue";
-import Alert from "@/components/Alert.vue";
-
 // Vuelidate, for more info and examples you can check out https://github.com/vuelidate/vuelidate
 import useVuelidate from "@vuelidate/core";
 import { required, minLength } from "@vuelidate/validators";
+
+import LayoutAuth from "@/layouts/variations/Auth.vue";
+import Alert from "@/components/Alert.vue";
 
 import { useAuthStore } from "@/stores/auth.store";
 
