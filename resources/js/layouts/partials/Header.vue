@@ -68,7 +68,7 @@ const logout = async () => {
                                         <p class="mb-0 text-muted fs-sm fw-medium">{{ auth.user?.role ?? '' }}</p>
                                     </div>
                                     <div class="p-2">
-                                        <RouterLink :to="{ name: 'home' }"
+                                        <RouterLink v-if="auth.user" :to="{ name: `${auth.user.role}.profile.edit`}"
                                             class="dropdown-item d-flex align-items-center justify-content-between">
                                             <span class="fs-sm fw-medium">Profile</span>
                                             <i class="fa fa-user ms-2"></i>

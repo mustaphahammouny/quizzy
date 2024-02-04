@@ -61,7 +61,7 @@ const logout = async () => {
             <div class="d-flex align-items-center">
                 <ul class="nav nav-main-dark nav-main-hover">
                     <li class="nav-main-item">
-                        <RouterLink :to="{ name: 'home' }" class="nav-main-link">
+                        <RouterLink v-if="auth.user" :to="{ name: `${auth.user.role}.profile.edit`}" class="nav-main-link">
                             <i class="nav-main-link-icon fa fa-user"></i>
                             <span class="nav-main-link-name">Profile</span>
                         </RouterLink>

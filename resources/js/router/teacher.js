@@ -2,6 +2,8 @@ import LayoutBackendBoxed from "@/layouts/variations/BackendBoxed.vue";
 
 const Dashboard = () => import("@/views/teacher/DashboardView.vue");
 
+const EditProfile = () => import("@/views/profile/EditView.vue");
+
 const IndexQuiz = () => import("@/views/teacher/quizzes/IndexView.vue");
 const CreateQuiz = () => import("@/views/teacher/quizzes/CreateView.vue");
 const EditQuiz = () => import("@/views/teacher/quizzes/EditView.vue");
@@ -25,6 +27,11 @@ const routes = [
                 path: "dashboard",
                 name: "teacher.dashboard",
                 component: Dashboard,
+            },
+            {
+                path: "profile",
+                name: "teacher.profile.edit",
+                component: EditProfile,
             },
             {
                 path: "quizzes",

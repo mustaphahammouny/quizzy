@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import alert from "../support/alert";
+import alert from "@/support/alert";
 
 export const useNotificationStore = defineStore({
     id: "notification",
