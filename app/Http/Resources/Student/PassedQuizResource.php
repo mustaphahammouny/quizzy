@@ -16,11 +16,11 @@ class PassedQuizResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'quiz' => new QuizResource($this->quiz),
-            'items' => PassedQuizItemResource::collection($this->items),
-            'correct_count' => $this->items->where('correct', true)->count(),
-            'items_count' => $this->items->count(),
-            'items_sum_time' => $this->items->sum('time'),
+            'quiz' => $this->whenLoaded('quiz', fn() => QuizResource::make($this->quiz)),
+            'items' => $this->whenLoaded('items', fn() => PassedQuizItemResource::collection($this->items)),
+            'correct_count' => $this->whenHas('correct_items_count', fn() => $this->correct_items_count),
+            'items_count' => $this->whenCounted('items', fn() => $this->items_count),
+            'items_sum_time' => $this->whenAggregated('items', 'time', 'sum', fn() => $this->items_sum_time),
             'created_at' => $this->created_at->format('Y-m-d'),
             'updated_at' => $this->updated_at->format('Y-m-d'),
         ];

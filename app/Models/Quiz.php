@@ -42,7 +42,7 @@ class Quiz extends Model implements HasMedia
             ->using(FavoriteQuiz::class);
     }
 
-    public function registerMediaConversions(Media $media = null): void
+    public function registerMediaConversions(?Media $media = null): void
     {
         $this->addMediaConversion('preview')
             ->fit(Manipulations::FIT_CROP, 300, 300)

@@ -16,8 +16,13 @@ class PassedQuizController extends Controller
 {
     public function index(): AnonymousResourceCollection
     {
-        $passedQuizzes = PassedQuiz::with('quiz')
-            ->with('items')
+        $passedQuizzes = PassedQuiz::query()
+            ->with(['quiz.user', 'items'])
+            ->withCount([
+                'items',
+                'items as correct_items_count' => fn($query) => $query->where('correct', true),
+            ])
+            ->withSum('items', 'time')
             ->where('user_id', Auth::id())
             ->paginate(12);
 

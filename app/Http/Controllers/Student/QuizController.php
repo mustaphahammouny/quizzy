@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\Student\QuizQuestionsResource;
 use App\Http\Resources\Student\QuizResource;
 use App\Models\Quiz;
+use App\Models\User;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\Auth;
 
@@ -17,9 +18,9 @@ class QuizController extends Controller
             ->withCount('questions')
             ->withCount('favoriteUsers')
             ->withSum('questions', 'time')
-            ->withExists(['favoriteUsers' => function ($query) {
-                $query->where('user_id', Auth::id());
-            }])
+            ->withExists([
+                'favoriteUsers' => fn($query) => $query->where('user_id', Auth::id()),
+            ])
             ->where('active', true)
             ->paginate(12);
 
@@ -32,12 +33,10 @@ class QuizController extends Controller
             ->withCount('questions')
             ->withCount('favoriteUsers')
             ->withSum('questions', 'time')
-            ->withExists(['favoriteUsers' => function ($query) {
-                $query->where('user_id', Auth::id());
-            }])
-            ->whereHas('favoriteUsers', function ($query) {
-                $query->where('user_id', Auth::id());
-            })
+            ->withExists([
+                'favoriteUsers' => fn($query) => $query->where('user_id', Auth::id())
+            ])
+            ->whereHas('favoriteUsers', fn($query) => $query->where('user_id', Auth::id()))
             ->where('active', true)
             ->paginate(12);
 
@@ -46,28 +45,29 @@ class QuizController extends Controller
 
     public function show(Quiz $quiz): QuizResource
     {
-        $quiz->questions_count = $quiz->questions()->count();
-        $quiz->questions_sum_time = $quiz->questions()->sum('time');
-        $quiz->favorite_users_count = $quiz->favoriteUsers()->count();
+        $quiz->loadCount('questions');
+        $quiz->loadSum('questions', 'time');
+        $quiz->loadCount('favoriteUsers');
 
-        return new QuizResource($quiz);
+        return QuizResource::make($quiz);
     }
 
     public function toggleFavorite(Quiz $quiz): QuizResource
     {
+        /** @var User */
         $user = Auth::user();
 
         $result = $user->favoriteQuizzes()->toggle($quiz);
 
         $quiz->favorite_users_exists = in_array($quiz->id, $result['attached']);
 
-        return new QuizResource($quiz);
+        return QuizResource::make($quiz);
     }
 
     public function questions(Quiz $quiz): QuizQuestionsResource
     {
         $quiz->load('questions.answers');
 
-        return new QuizQuestionsResource($quiz);
+        return QuizQuestionsResource::make($quiz);
     }
 }
