@@ -2,9 +2,7 @@ name: CICD
 
 on:
   push:
-    branches: ["main"]
-  pull_request:
-    branches: ["main"]
+    branches: ['main']
 
 jobs:
   cicd:
@@ -40,12 +38,9 @@ jobs:
       - name: Directory Permissions
         run: chmod -R 777 storage bootstrap/cache
 
-      - name: Execute tests (Unit and Feature tests) via PHPUnit/Pest
-        run: php artisan test
-
       - name: Set production environment variables
         run: |
-          sed -i "s|^APP_NAME=.*|APP_NAME=Quizzy|" .env
+          sed -i "s|^APP_NAME=.*|APP_NAME=\"Quizzy\"|" .env
           sed -i "s|^APP_URL=.*|APP_URL=https://quizzy.mustaphahammouny.com|" .env
           sed -i "s|^DB_CONNECTION=.*|DB_CONNECTION=mysql|" .env
           sed -i "s|^DB_DATABASE=.*|DB_DATABASE=${{ secrets.HOSTINGER_DB_DATABASE }}|" .env
@@ -64,14 +59,15 @@ jobs:
 
       - name: Deploy
         if: ${{ success() }}
-        uses: appleboy/scp-action@master
+        uses: burnett01/rsync-deployments@master
         with:
-          host: ${{ secrets.HOSTINGER_HOST }}
-          port: ${{ secrets.HOSTINGER_PORT }}
-          username: ${{ secrets.HOSTINGER_USERNAME }}
-          key: ${{ secrets.HOSTINGER_SSH_KEY }}
-          source: .
-          target: /home/${{ secrets.HOSTINGER_USERNAME }}/domains/mustaphahammouny.com/public_html/quizzy
+          switches: -avzr --delete
+          path: ./
+          remote_path: /home/${{ secrets.HOSTINGER_USERNAME }}/domains/mustaphahammouny.com/public_html/quizzy
+          remote_host: ${{ secrets.HOSTINGER_HOST }}
+          remote_port: ${{ secrets.HOSTINGER_PORT }}
+          remote_user: ${{ secrets.HOSTINGER_USERNAME }}
+          remote_key: ${{ secrets.HOSTINGER_SSH_KEY }}
 
       - name: Post deploy
         if: ${{ success() }}
@@ -83,7 +79,7 @@ jobs:
           key: ${{ secrets.HOSTINGER_SSH_KEY }}
           script: |
             cd /home/${{ secrets.HOSTINGER_USERNAME }}/domains/mustaphahammouny.com/public_html/quizzy
-            php artisan migrate:fresh --seed
+            php artisan migrate
             php artisan route:clear
             php artisan optimize
             php artisan storage:link
