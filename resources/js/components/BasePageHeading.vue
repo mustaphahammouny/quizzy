@@ -14,12 +14,12 @@ defineProps({
 
 <template>
     <div class="bg-body-light">
-        <div class="content content-full">
+        <div class="content content-full py-3">
             <slot>
                 <div v-if="title || $slots.extra"
-                    class="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-center py-2">
+                    class="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-center">
                     <div class="flex-grow-1">
-                        <h1 v-if="title" class="h3 fw-bold mb-1">{{ title }}</h1>
+                        <h1 v-if="title" class="h4 fw-semibold mb-1">{{ title }}</h1>
                         <h2 v-if="subtitle" class="fs-base lh-base fw-medium text-muted mb-0">
                             {{ subtitle }}
                         </h2>

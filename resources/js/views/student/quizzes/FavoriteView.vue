@@ -1,11 +1,8 @@
 <script setup>
 import { ref, onBeforeMount } from "vue";
-
-import alert from '@/support/alert';
-
-import Quiz from '@/views/student/quizzes/components/Quiz.vue';
-import Pagination from '@/views/student/quizzes/components/Pagination.vue';
-import Empty from '@/components/Empty.vue';
+import Quiz from "@/views/student/quizzes/components/Quiz.vue";
+import Pagination from "@/views/student/quizzes/components/Pagination.vue";
+import Empty from "@/components/Empty.vue";
 
 const quizzes = ref([]);
 const meta = ref({});
@@ -18,7 +15,9 @@ const paginate = async (to) => {
 
 const getQuizzes = async () => {
     try {
-        const response = await http.get("api/student/quizzes/favorite", { page: page.value });
+        const response = await http.get("api/student/quizzes/favorite", {
+            page: page.value,
+        });
 
         quizzes.value = response.data.data;
         meta.value = response.data.meta;
@@ -27,15 +26,7 @@ const getQuizzes = async () => {
     }
 };
 
-const success = (data) => {
-    quizzes.value = quizzes.value.filter((item) => item.id != data.id);
-
-    alert.success('Quiz deleted successfully!');
-}
-
-onBeforeMount(async () => {
-    await getQuizzes();
-});
+onBeforeMount(getQuizzes);
 </script>
 
 <template>
@@ -43,9 +34,15 @@ onBeforeMount(async () => {
 
     <div class="content content-boxed py-0">
         <template v-if="quizzes.length">
-            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 items-push py-4">
-
-                <Quiz v-for="quiz in quizzes" :quiz="quiz" :key="quiz.id" :success="success" />
+            <div
+                class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 items-push py-4"
+            >
+                <Quiz
+                    v-for="quiz in quizzes"
+                    :quiz="quiz"
+                    :key="quiz.id"
+                    @favorite-toggled="getQuizzes"
+                />
             </div>
 
             <Pagination :meta="meta" :paginate="paginate" />

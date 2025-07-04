@@ -84,6 +84,13 @@ class PassedQuizController extends Controller
 
             DB::commit();
 
+            $passedQuiz->load('quiz.user')
+                ->loadCount([
+                    'items',
+                    'items as correct_items_count' => fn($query) => $query->where('correct', true),
+                ])
+                ->loadSum('items', 'time');
+
             return new PassedQuizResource($passedQuiz);
         } catch (Exception $e) {
             DB::rollBack();

@@ -45,9 +45,10 @@ class QuizController extends Controller
 
     public function show(Quiz $quiz): QuizResource
     {
-        $quiz->loadCount('questions');
-        $quiz->loadSum('questions', 'time');
-        $quiz->loadCount('favoriteUsers');
+        $quiz->load('user')
+            ->loadCount('questions')
+            ->loadSum('questions', 'time')
+            ->loadCount('favoriteUsers');
 
         return QuizResource::make($quiz);
     }

@@ -1,16 +1,15 @@
 <script setup>
 import { ref } from "vue";
+import alert from "@/support/alert";
 
 const props = defineProps({
     quiz: {
         type: Object,
         required: true,
     },
-    success: {
-        type: Function,
-        required: true,
-    },
 });
+
+const emit = defineEmits(["favorite-toggled"]);
 
 const quiz = ref(props.quiz);
 
@@ -20,9 +19,19 @@ const favoriteQuiz = async () => {
             `api/student/quizzes/${quiz.value.id}/favorite`
         );
 
-        props.success(response.data.data);
+        quiz.value.favorite = response.data.data.favorite;
+
+        let title = "Quiz added to favorites!";
+        if (!quiz.value.favorite) {
+            title = "Quiz removed from favorites!";
+        }
+
+        alert.success(title);
+
+        emit("favorite-toggled");
     } catch (error) {
-        console.log(error.response.data.message);
+        console.log(error);
+        // console.log(error.response.data.message);
     }
 };
 </script>
@@ -30,69 +39,95 @@ const favoriteQuiz = async () => {
 <template>
     <div class="col">
         <BaseBlock
-            content-full
-            :ribbon="quiz.level.name"
-            :ribbonVariant="quiz.level.color"
+            rounded
+            class="overflow-hidden d-flex flex-column h-100 mb-0"
         >
-            <div class="d-flex justify-content-center">
-                <img
-                    class="img-fluid img-height"
-                    :src="quiz.image"
-                    alt="quiz image"
-                />
-            </div>
-            <h4 class="h5 text-center mb-2">
-                {{ quiz.name }}
-            </h4>
-            <table class="table table-borderless fs-sm mb-4">
-                <tbody>
-                    <tr>
-                        <td>
-                            <i class="fa fa-fw fa-user me-1"></i>
-                            {{ quiz.teacher.full_name }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <i class="fa fa-fw fa-edit me-1"></i>
-                            {{ quiz.questions_count }} questions
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <i class="fa fa-fw fa-clock me-1"></i>
-                            {{ quiz.questions_sum_time }} Seconds
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <i class="fa fa-fw fa-calendar me-1"></i>
-                            {{ quiz.created_at }}
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-            <div class="d-flex justify-content-between">
-                <RouterLink
-                    :to="{
-                        name: 'student.quizzes.show',
-                        params: { id: quiz.id },
-                    }"
-                    class="btn btn-sm rounded-pill btn-alt-primary"
+            <template #content>
+                <div
+                    class="block-content ribbon p-0"
+                    :class="`ribbon-${quiz.level.color}`"
                 >
-                    <i class="fa fa-fw fa-eye"></i>
-                </RouterLink>
-                <button
-                    v-on:click="($event) => favoriteQuiz()"
-                    class="btn btn-sm rounded-pill"
-                    :class="{
-                        'btn-outline-secondary': !quiz.favorite,
-                        'btn-outline-danger': quiz.favorite,
-                    }"
-                >
-                    <i class="fa fa-fw fa-heart"></i>
-                </button>
-            </div>
+                    <div class="ribbon-box ribbon-sm">
+                        {{ quiz.level.name }}
+                    </div>
+                    <div class="options-container fx-item-zoom-in">
+                        <img
+                            class="img-fluid img-height w-100 options-item object-fit-cover"
+                            :src="quiz.image"
+                            :alt="quiz.name"
+                        />
+                        <div class="options-overlay bg-black-75">
+                            <div class="options-overlay-content">
+                                <button
+                                    v-on:click="($event) => favoriteQuiz()"
+                                    class="btn btn-sm btn-alt-danger rounded-pill"
+                                >
+                                    <i
+                                        class="fa-fw fa-heart"
+                                        :class="{
+                                            far: !quiz.favorite,
+                                            fa: quiz.favorite,
+                                        }"
+                                    ></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="block-content flex-grow-1">
+                    <RouterLink
+                        :to="{
+                            name: 'student.quizzes.show',
+                            params: { id: quiz.id },
+                        }"
+                        class="fw-bold text-primary-emphasis"
+                    >
+                        <h4 class="text-center">{{ quiz.name }}</h4>
+                    </RouterLink>
+
+                    <ul class="nav nav-pills flex-column mt-4">
+                        <li
+                            class="nav-item d-flex justify-content-between align-items-center mb-1"
+                        >
+                            <span class="text-secondary fw-bold">Teacher:</span>
+                            <span class="text-secondary fw-semibold">{{
+                                quiz.teacher.full_name
+                            }}</span>
+                        </li>
+                        <li
+                            class="nav-item d-flex justify-content-between align-items-center mb-1"
+                        >
+                            <span class="text-secondary fw-bold">Total:</span>
+                            <span class="text-secondary fw-semibold">
+                                {{ quiz.questions_count ?? 0 }} questions
+                            </span>
+                        </li>
+                        <li
+                            class="nav-item d-flex justify-content-between align-items-center mb-1"
+                        >
+                            <span class="text-secondary fw-bold">Time:</span>
+                            <span class="text-secondary fw-semibold">
+                                {{ quiz.questions_sum_time ?? 0 }}
+                                Seconds
+                            </span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="block-content block-content-full">
+                    <RouterLink
+                        :to="{
+                            name: 'student.quizzes.show',
+                            params: { id: quiz.id },
+                        }"
+                        class="btn btn-sm btn-alt-primary w-100"
+                    >
+                        <i class="fa fa-fw fa-eye me-1"></i>
+                        View
+                    </RouterLink>
+                </div>
+            </template>
         </BaseBlock>
     </div>
 </template>
