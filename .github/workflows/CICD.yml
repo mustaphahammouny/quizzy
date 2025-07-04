@@ -78,6 +78,7 @@ jobs:
           username: ${{ secrets.HOSTINGER_USERNAME }}
           key: ${{ secrets.HOSTINGER_SSH_KEY }}
           script: |
+            set -e
             cd /home/${{ secrets.HOSTINGER_USERNAME }}/domains/mustaphahammouny.com/public_html/quizzy
             php artisan migrate
             php artisan route:clear
