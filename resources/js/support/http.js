@@ -30,7 +30,7 @@ const request = async ({ method, url, data, headers }) => {
         return await instance.request(config);
     } catch (error) {
         if (error.response.status === 401) {
-            await auth.logout();
+            auth.setUser(null);
 
             router.push({ name: "auth.signin" });
         }
