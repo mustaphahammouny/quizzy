@@ -120,7 +120,7 @@ function linkClicked(e, submenu) {
             <!-- Heading -->
             {{ node.heading ? node.name : "" }}
             <!-- Normal Link -->
-            <div v-if="!node.heading && !node.sub" @click="linkClicked($event)">
+            <template v-if="!node.heading && !node.sub" @click="linkClicked($event)">
                 <RouterLink v-if="
                     !node.to.startsWith('http://') && !node.to.startsWith('https://')
                 " :to="node.to && node.to !== '#' ? { name: node.to } : '#'" class="nav-main-link"
@@ -146,7 +146,7 @@ function linkClicked(e, submenu) {
                             : 'bg-primary'
                     ">{{ node.badge }}</span>
                 </a>
-            </div>
+            </template>
             <!-- END Normal Link -->
 
             <!-- Submenu Link -->

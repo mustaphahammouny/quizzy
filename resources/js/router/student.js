@@ -1,4 +1,4 @@
-import LayoutBackendBoxed from "@/layouts/variations/BackendBoxed.vue";
+const LayoutBackendBoxed = () => import("@/layouts/variations/BackendBoxed.vue");
 
 const Dashboard = () => import("@/views/student/DashboardView.vue");
 

@@ -35,7 +35,7 @@ $zindex-block-fullscreen: $zindex-fixed + 5 !default;
 // Header
 
 $header-height: 4rem !default; // Best values > 3rem and < 5rem
-$header-bg: rgba($white, 0.75) !default;
+$header-bg: rgba($white, 0.95) !default;
 $header-dark-bg: rgba($primary-darker, 1) !default;
 
 // Sidebar and Side Overlay
@@ -68,6 +68,6 @@ $space-main-max-width: 1920px !default; // Main content max width
 
 // Third Party
 
-$inter-font-path: "/assets/fonts/inter/" !default;
+$inter-font-path: "@/assets/scss/fonts/inter/" !default;
 $fa-font-path: "@fortawesome/fontawesome-free/webfonts" !default;
-$simple-line-font-path: "/assets/fonts/simple-line-icons/" !default;
+$simple-line-font-path: "@/assets/scss/fonts/simple-line-icons/" !default;
