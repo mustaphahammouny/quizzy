@@ -1,7 +1,6 @@
 import { defineStore } from "pinia";
 
-export const useAuthStore = defineStore({
-    id: "auth",
+export const useAuthStore = defineStore('auth', {
     state: () => ({
         user: JSON.parse(localStorage.getItem("user")) ?? null,
         returnUrl: null,
@@ -10,7 +9,7 @@ export const useAuthStore = defineStore({
         setUser(user) {
             this.user = user;
 
-            if (user) {
+            if (this.user) {
                 localStorage.setItem("user", JSON.stringify(this.user));
             } else {
                 localStorage.removeItem("user");
@@ -22,6 +21,8 @@ export const useAuthStore = defineStore({
 
                 this.setUser(response.data.data);
             } catch (error) {
+                this.setUser(null);
+
                 let message = "Something went wrong!";
 
                 throw new Error(error.response.data.message ?? message);

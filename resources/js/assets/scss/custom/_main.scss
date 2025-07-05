@@ -11,6 +11,8 @@
 // For example you can create _component1.scss and include it as follows:
 // @import 'component1';
 
+@import "sweetalert2/dist/sweetalert2.min.css";
+
 .text-justify {
     text-align: justify;
 }
